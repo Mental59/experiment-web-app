@@ -1,6 +1,6 @@
 import { Tabs } from '@mantine/core';
 
-export function MainTabs() {
+export function ExperimentsSection() {
   return (
     <Tabs variant="outline" defaultValue="datasets">
       <Tabs.List>
