@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
 import { Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
 import { IconHome2, IconMicroscope, IconSettings } from '@tabler/icons-react';
-import classes from './ExperimentsNavbar.module.css';
-import { ExperimentsSection } from '../sections/ExperimentsSection/ExperimentsSection';
-import { NeptuneExperimentSettingsSection } from '../sections/NeptuneExperimentSettingsSection/NeptuneExperimentSettingsSection';
+import classes from './ExperimentsMenu.module.css';
+import { useAppDispatch, useAppSelector } from '../../../redux/store';
+import {
+  ExperimentActiveSection,
+  setActiveSectionIndex,
+} from '../../../redux/experimentsMenuSection/experimentsMenuSectionSlice';
 
 interface NavbarLinkProps {
   icon: typeof IconHome2;
   label: string;
-  section: React.ReactNode;
+  section: ExperimentActiveSection;
   active?: boolean;
   onClick?(): void;
 }
@@ -24,33 +26,25 @@ function NavbarLink({ icon: Icon, label, active, onClick, section }: NavbarLinkP
 }
 
 const navbarData: NavbarLinkProps[] = [
-  { icon: IconMicroscope, label: 'Эксперименты', section: <ExperimentsSection /> },
+  { icon: IconMicroscope, label: 'Эксперименты', section: 'ExperimentsSection' },
   {
     icon: IconSettings,
     label: 'Настройка Neptune',
-    section: <NeptuneExperimentSettingsSection />,
+    section: 'NeptuneExperimentSettingsSection',
   },
 ];
 
-export function ExperimentsNavbar({
-  onSectionChanged,
-}: {
-  onSectionChanged: (section: React.ReactNode) => void;
-}) {
-  const [activeIndex, setActiveIndex] = useState(0);
+export function ExperimentsMenu() {
+  const activeSection = useAppSelector((state) => state.experimentMenuSection.activeSection);
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    onSectionChanged(navbarData[activeIndex].section);
-  }, []);
-
-  const links = navbarData.map((link, index) => (
+  const links = navbarData.map((link) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === activeIndex}
+      active={link.section === activeSection}
       onClick={() => {
-        setActiveIndex(index);
-        onSectionChanged(link.section);
+        dispatch(setActiveSectionIndex(link.section));
       }}
     />
   ));

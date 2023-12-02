@@ -1,12 +1,14 @@
 import { AppShell, Burger, Group } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
-import { useState } from 'react';
-import { ExperimentsNavbar } from '../components/ExperimentsNavbar/ExperimentsNavbar';
+import { ExperimentsMenu } from '../components/Experiments/ExperimentsMenu/ExperimentsMenu';
+import { useAppSelector } from '../redux/store';
+import { ExperimentsSection } from '../components/Experiments/ExperimentsSection/ExperimentsSection';
+import { NeptuneExperimentSettingsSection } from '../components/Experiments/NeptuneExperimentSettingsSection/NeptuneExperimentSettingsSection';
 
 export function HomePage() {
   const [burgerOpened, { toggle: toggleBurger }] = useDisclosure();
-  const [activeSection, setActiveSection] = useState<React.ReactNode>(<div>Default</div>);
+  const activeSection = useAppSelector((state) => state.experimentMenuSection.activeSection);
 
   return (
     <AppShell
@@ -22,10 +24,15 @@ export function HomePage() {
       </AppShell.Header>
 
       <AppShell.Navbar p="md">
-        <ExperimentsNavbar onSectionChanged={(section) => setActiveSection(section)} />
+        <ExperimentsMenu />
       </AppShell.Navbar>
 
-      <AppShell.Main>{activeSection}</AppShell.Main>
+      <AppShell.Main>
+        {activeSection === 'ExperimentsSection' && <ExperimentsSection />}
+        {activeSection === 'NeptuneExperimentSettingsSection' && (
+          <NeptuneExperimentSettingsSection />
+        )}
+      </AppShell.Main>
     </AppShell>
   );
 }
