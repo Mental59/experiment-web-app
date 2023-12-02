@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export type ExperimentActiveSection = 'ExperimentsSection' | 'NeptuneExperimentSettingsSection';
+export type ExperimentActiveSection = 'ExperimentsSection' | 'ExperimentSettingsSection';
 export interface ExperimentMenuSectionState {
   activeSection: ExperimentActiveSection;
 }
@@ -13,12 +13,12 @@ export const experimentMenuSectionSlice = createSlice({
   name: 'experimentMenuSection',
   initialState,
   reducers: {
-    setActiveSectionIndex: (state, action: PayloadAction<ExperimentActiveSection>) => {
+    setActiveSection: (state, action: PayloadAction<ExperimentActiveSection>) => {
       const activeSection = action.payload;
       state.activeSection = activeSection;
     },
   },
 });
 
-export const { setActiveSectionIndex } = experimentMenuSectionSlice.actions;
+export const { setActiveSection } = experimentMenuSectionSlice.actions;
 export const experimentMenuSectionReducer = experimentMenuSectionSlice.reducer;

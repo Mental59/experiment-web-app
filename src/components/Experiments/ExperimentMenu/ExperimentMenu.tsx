@@ -1,10 +1,10 @@
 import { Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
 import { IconHome2, IconMicroscope, IconSettings } from '@tabler/icons-react';
-import classes from './ExperimentsMenu.module.css';
+import classes from './ExperimentMenu.module.css';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import {
   ExperimentActiveSection,
-  setActiveSectionIndex,
+  setActiveSection,
 } from '../../../redux/experimentsMenuSection/experimentsMenuSectionSlice';
 
 interface NavbarLinkProps {
@@ -29,12 +29,12 @@ const navbarData: NavbarLinkProps[] = [
   { icon: IconMicroscope, label: 'Эксперименты', section: 'ExperimentsSection' },
   {
     icon: IconSettings,
-    label: 'Настройка Neptune',
-    section: 'NeptuneExperimentSettingsSection',
+    label: 'Настройки',
+    section: 'ExperimentSettingsSection',
   },
 ];
 
-export function ExperimentsMenu() {
+export function ExperimentMenu() {
   const activeSection = useAppSelector((state) => state.experimentMenuSection.activeSection);
   const dispatch = useAppDispatch();
 
@@ -44,7 +44,7 @@ export function ExperimentsMenu() {
       key={link.label}
       active={link.section === activeSection}
       onClick={() => {
-        dispatch(setActiveSectionIndex(link.section));
+        dispatch(setActiveSection(link.section));
       }}
     />
   ));

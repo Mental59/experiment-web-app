@@ -1,10 +1,10 @@
 import { AppShell, Burger, Group } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
-import { ExperimentsMenu } from '../components/Experiments/ExperimentsMenu/ExperimentsMenu';
+import { ExperimentMenu } from '../components/Experiments/ExperimentMenu/ExperimentMenu';
 import { useAppSelector } from '../redux/store';
-import { ExperimentsSection } from '../components/Experiments/ExperimentsSection/ExperimentsSection';
-import { NeptuneExperimentSettingsSection } from '../components/Experiments/NeptuneExperimentSettingsSection/NeptuneExperimentSettingsSection';
+import { ExperimentMainSection } from '../components/Experiments/ExperimentMainSection/ExperimentMainSection';
+import { ExperimentSettingsSection } from '../components/Experiments/ExperimentSettingsSection/ExperimentSettingsSection';
 
 export function HomePage() {
   const [burgerOpened, { toggle: toggleBurger }] = useDisclosure();
@@ -13,7 +13,7 @@ export function HomePage() {
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { mobile: !burgerOpened } }}
+      navbar={{ width: 100, breakpoint: 'sm', collapsed: { mobile: !burgerOpened } }}
       padding="md"
     >
       <AppShell.Header>
@@ -24,14 +24,12 @@ export function HomePage() {
       </AppShell.Header>
 
       <AppShell.Navbar p="md">
-        <ExperimentsMenu />
+        <ExperimentMenu />
       </AppShell.Navbar>
 
       <AppShell.Main>
-        {activeSection === 'ExperimentsSection' && <ExperimentsSection />}
-        {activeSection === 'NeptuneExperimentSettingsSection' && (
-          <NeptuneExperimentSettingsSection />
-        )}
+        {activeSection === 'ExperimentsSection' && <ExperimentMainSection />}
+        {activeSection === 'ExperimentSettingsSection' && <ExperimentSettingsSection />}
       </AppShell.Main>
     </AppShell>
   );
