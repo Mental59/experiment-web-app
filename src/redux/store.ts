@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { experimentMenuSectionReducer } from './experimentsMenuSection/experimentsMenuSectionSlice';
+import { webAppStateReducer } from './webAppState/webAppStateSlice';
+import { mlflowTrackerInfoReducer } from './trackerInfo/mlflowTrackerInfoSlice';
+import { neptuneTrackerInfoReducer } from './trackerInfo/neptuneTrackerInfoSlice';
 
 export const store = configureStore({
   reducer: {
-    experimentMenuSection: experimentMenuSectionReducer,
+    webAppState: webAppStateReducer,
+    mlflowTrackerInfo: mlflowTrackerInfoReducer,
+    neptuneTrackerInfo: neptuneTrackerInfoReducer,
   },
 });
 

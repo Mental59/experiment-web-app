@@ -1,6 +1,13 @@
 import { Tabs } from '@mantine/core';
+import { useAppSelector } from '../../../redux/store';
 
 export function ExperimentMainSection() {
+  const neptuneTrackerInfo = useAppSelector((state) => state.neptuneTrackerInfo);
+  const mlflowTrackerInfo = useAppSelector((state) => state.mlflowTrackerInfo);
+
+  console.log(neptuneTrackerInfo);
+  console.log(mlflowTrackerInfo);
+
   return (
     <Tabs variant="outline" defaultValue="datasets">
       <Tabs.List>

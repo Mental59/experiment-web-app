@@ -8,7 +8,7 @@ import { ExperimentSettingsSection } from '../components/Experiments/ExperimentS
 
 export function HomePage() {
   const [burgerOpened, { toggle: toggleBurger }] = useDisclosure();
-  const activeSection = useAppSelector((state) => state.experimentMenuSection.activeSection);
+  const activeSection = useAppSelector((state) => state.webAppState.activeSection);
 
   return (
     <AppShell
