@@ -1,4 +1,4 @@
-import { Divider, Select, Stack, Text } from '@mantine/core';
+import { Divider, Select, Stack, Text, rem } from '@mantine/core';
 import { InputWithButton } from '../../InputWithButton/InputWithButton';
 import { CustomLoadingOverlay } from '../../CustomLoadingOverlay/CustomLoadingOverlay';
 import { useExperimentSettings } from '../../../hooks/useExperimentSettings';
@@ -19,7 +19,7 @@ export function ExperimentSettingsSection() {
         <Divider />
         <InputWithButton
           label="API токен"
-          w="25%"
+          w={rem(500)}
           error={!neptuneTrackerInfo.correctApiToken && 'Неверный токен'}
           value={neptuneTrackerInfo.apiToken}
           disabled={settingsLoading}
@@ -30,7 +30,7 @@ export function ExperimentSettingsSection() {
         <Select
           radius="xl"
           label="Проект"
-          w="25%"
+          w={rem(500)}
           disabled={settingsLoading}
           data={neptuneTrackerInfo.projects.map((project) => project.project_id)}
           value={neptuneTrackerInfo.currentProjectId}

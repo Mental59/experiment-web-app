@@ -17,7 +17,7 @@ export function InputWithButton({ onButtonClick, ...textInputProps }: InputWithB
           radius="xl"
           color={theme.primaryColor}
           variant="filled"
-          onClick={(event) => onButtonClick(event)}
+          onClick={onButtonClick}
         >
           <IconCheck style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
         </ActionIcon>
