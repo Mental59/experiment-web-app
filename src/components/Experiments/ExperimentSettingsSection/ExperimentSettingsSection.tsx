@@ -30,10 +30,15 @@ export function ExperimentSettingsSection() {
     try {
       const projects = await getNeptuneTrackerProjects(neptuneTrackerInfo.apiToken);
       dispatch(setNeptuneProjects(projects));
+
+      if (!neptuneTrackerInfo.currentProjectId && projects.length > 0) {
+        dispatch(setNeptuneCurrentProjectId(projects[0].project_id));
+      }
+
       dispatch(setNeptuneCorrectApiToken(true));
     } catch (err) {
-      dispatch(setNeptuneCurrentProjectId(null));
       dispatch(setNeptuneProjects([]));
+      dispatch(setNeptuneCurrentProjectId(null));
       dispatch(setNeptuneCorrectApiToken(false));
     } finally {
       dispatch(setSettingsLoading(false));
