@@ -4,11 +4,15 @@ import type { ExperimentActiveSection } from '../../models/experiment/section.ty
 export type WebAppState = {
   activeSection: ExperimentActiveSection;
   settingsLoading: boolean;
+  datasetsLoading: boolean;
+  datasetsLoaded: boolean;
 };
 
 const initialState: WebAppState = {
   activeSection: 'ExperimentsSection',
   settingsLoading: false,
+  datasetsLoading: false,
+  datasetsLoaded: false,
 };
 
 export const webAppStateSlice = createSlice({
@@ -23,8 +27,17 @@ export const webAppStateSlice = createSlice({
       const settingsLoading = action.payload;
       state.settingsLoading = settingsLoading;
     },
+    setDatasetsLoading: (state, action: PayloadAction<boolean>) => {
+      const datasetsLoading = action.payload;
+      state.datasetsLoading = datasetsLoading;
+    },
+    setDatasetsLoaded: (state, action: PayloadAction<boolean>) => {
+      const datasetsLoaded = action.payload;
+      state.datasetsLoaded = datasetsLoaded;
+    },
   },
 });
 
-export const { setActiveSection, setSettingsLoading } = webAppStateSlice.actions;
+export const { setActiveSection, setSettingsLoading, setDatasetsLoading, setDatasetsLoaded } =
+  webAppStateSlice.actions;
 export const webAppStateReducer = webAppStateSlice.reducer;

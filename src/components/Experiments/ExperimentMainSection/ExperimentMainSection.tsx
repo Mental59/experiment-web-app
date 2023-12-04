@@ -1,26 +1,23 @@
 import { Tabs } from '@mantine/core';
-import { useAppSelector } from '../../../redux/store';
+import { DatasetUploader } from '../DatasetUploader/DatasetUploader';
+import { ExperimentRunner } from '../ExperimentRunner/ExperimentRunner';
+import { ExperimentMainSectionTab } from '../../../models/experiment/section.type';
 
 export function ExperimentMainSection() {
-  const neptuneTrackerInfo = useAppSelector((state) => state.neptuneTrackerInfo);
-  const mlflowTrackerInfo = useAppSelector((state) => state.mlflowTrackerInfo);
-
-  console.log(neptuneTrackerInfo);
-  console.log(mlflowTrackerInfo);
-
   return (
-    <Tabs variant="outline" defaultValue="datasets">
+    <Tabs variant="outline" defaultValue={ExperimentMainSectionTab.Datasets}>
       <Tabs.List>
-        <Tabs.Tab value="datasets">Загрузка наборов данных</Tabs.Tab>
-        <Tabs.Tab value="train">Запуск обучения</Tabs.Tab>
-        <Tabs.Tab value="test">Запуск тестирования</Tabs.Tab>
+        <Tabs.Tab value={ExperimentMainSectionTab.Datasets}>Загрузка наборов данных</Tabs.Tab>
+        <Tabs.Tab value={ExperimentMainSectionTab.Runner}>Запуск экспериментов</Tabs.Tab>
       </Tabs.List>
 
-      <Tabs.Panel value="datasets">Content1</Tabs.Panel>
+      <Tabs.Panel value={ExperimentMainSectionTab.Datasets}>
+        <DatasetUploader />
+      </Tabs.Panel>
 
-      <Tabs.Panel value="train">Content2</Tabs.Panel>
-
-      <Tabs.Panel value="test">Content3</Tabs.Panel>
+      <Tabs.Panel value={ExperimentMainSectionTab.Runner}>
+        <ExperimentRunner />
+      </Tabs.Panel>
     </Tabs>
   );
 }

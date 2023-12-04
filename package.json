@@ -19,8 +19,10 @@
     "storybook:build": "storybook build"
   },
   "dependencies": {
-    "@mantine/core": "7.2.2",
-    "@mantine/hooks": "7.2.2",
+    "@mantine/core": "^7.2.2",
+    "@mantine/dropzone": "^7.3.0",
+    "@mantine/hooks": "^7.2.2",
+    "@mantine/notifications": "^7.3.0",
     "@mantinex/mantine-logo": "^1.0.1",
     "@reduxjs/toolkit": "^1.9.7",
     "@tabler/icons-react": "^2.42.0",

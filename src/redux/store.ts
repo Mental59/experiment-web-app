@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { webAppStateReducer } from './webAppState/webAppStateSlice';
 import { mlflowTrackerInfoReducer } from './trackerInfo/mlflowTrackerInfoSlice';
 import { neptuneTrackerInfoReducer } from './trackerInfo/neptuneTrackerInfoSlice';
+import { experimentApiInfoReducer } from './trackerInfo/experimentApiSlice';
 
 export const store = configureStore({
   reducer: {
     webAppState: webAppStateReducer,
     mlflowTrackerInfo: mlflowTrackerInfoReducer,
     neptuneTrackerInfo: neptuneTrackerInfoReducer,
+    experimentApiInfo: experimentApiInfoReducer,
   },
 });
 

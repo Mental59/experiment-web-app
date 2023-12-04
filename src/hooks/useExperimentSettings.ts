@@ -2,15 +2,18 @@ import { useAppDispatch, useAppSelector } from '../redux/store';
 import {
   setNeptuneApiKey,
   setNeptuneCorrectApiToken,
-  setNeptuneCurrentProjectId,
   setNeptuneProjects,
+  setNeptuneProjectsLoaded,
 } from '../redux/trackerInfo/neptuneTrackerInfoSlice';
 import { setSettingsLoading } from '../redux/webAppState/webAppStateSlice';
-import { getNeptuneTrackerProjects } from '../requests/trackerInfo';
+import { checkNeptuneApiToken } from '../requests/trackerInfo';
 
 export const useExperimentSettings = () => {
   const settingsLoading = useAppSelector((state) => state.webAppState.settingsLoading);
-  const neptuneTrackerInfo = useAppSelector((state) => state.neptuneTrackerInfo);
+  const neptuneCorrectApiToken = useAppSelector(
+    (state) => state.neptuneTrackerInfo.correctApiToken
+  );
+  const neptuneApiToken = useAppSelector((state) => state.neptuneTrackerInfo.apiToken);
   const dispatch = useAppDispatch();
 
   const handleApiTokenChange = (apiToken: string) => {
@@ -18,39 +21,25 @@ export const useExperimentSettings = () => {
   };
 
   const handleApiTokenApply = async () => {
-    if (neptuneTrackerInfo.apiToken.trim().length === 0) {
+    if (neptuneApiToken.trim().length === 0) {
       return;
     }
 
     dispatch(setSettingsLoading(true));
 
-    try {
-      const projects = await getNeptuneTrackerProjects(neptuneTrackerInfo.apiToken);
-      dispatch(setNeptuneProjects(projects));
+    const isTokenCorrect = await checkNeptuneApiToken(neptuneApiToken);
+    dispatch(setNeptuneCorrectApiToken(isTokenCorrect));
+    dispatch(setNeptuneProjectsLoaded(false));
+    dispatch(setNeptuneProjects([]));
 
-      if (!neptuneTrackerInfo.currentProjectId && projects.length > 0) {
-        dispatch(setNeptuneCurrentProjectId(projects[0].project_id));
-      }
-
-      dispatch(setNeptuneCorrectApiToken(true));
-    } catch (err) {
-      dispatch(setNeptuneProjects([]));
-      dispatch(setNeptuneCurrentProjectId(null));
-      dispatch(setNeptuneCorrectApiToken(false));
-    } finally {
-      dispatch(setSettingsLoading(false));
-    }
-  };
-
-  const handleProjectChange = (projectId: string | null) => {
-    dispatch(setNeptuneCurrentProjectId(projectId));
+    dispatch(setSettingsLoading(false));
   };
 
   return {
     handleApiTokenChange,
     handleApiTokenApply,
-    handleProjectChange,
     settingsLoading,
-    neptuneTrackerInfo,
+    neptuneCorrectApiToken,
+    neptuneApiToken,
   };
 };
