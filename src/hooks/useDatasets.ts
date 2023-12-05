@@ -48,6 +48,7 @@ export const useDatasets = () => {
   const dispatch = useAppDispatch();
 
   const fetchDatasets = async () => {
+    // TODO: data might be fetched several times
     if (datasetsLoaded) {
       return;
     }

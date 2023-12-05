@@ -1,29 +1,10 @@
 import { Box, Button, Group, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
-import { useState } from 'react';
 import { useExperimentRunner } from '../../../hooks/useExperimentRunner';
 import { GradientSegmentedControl } from '../../GradientSegmentedControl/GradientSegmentedControl';
-import { ExperimentProjectInfoDto } from '../../../models/experimentTrackers/experimentTrackerInfo.type';
 import { ExperimentMode } from '../../../models/experimentRunner/experimentMode';
 import { ExperimentTracker } from '../../../models/experimentRunner/experimentTracker';
-
-function TrainRunnerParams() {
-  return (
-    <>
-      <div>TrainRunnerParams</div>
-    </>
-  );
-}
-
-function TestRunnerParams({ projects }: { projects: ExperimentProjectInfoDto[] }) {
-  const runs = projects.flatMap((project) => project.runs);
-  const trainRuns = runs.filter((run) => run.run_type === 'train');
-
-  return (
-    <>
-      <Select data={trainRuns.map((run) => run.run_id)} label="Id обучающего эксперимента" />
-    </>
-  );
-}
+import { TrainRunnerParams } from './TrainRunnerParams';
+import { TestRunnerParams } from './TestRunnerParams';
 
 export function ExperimentRunner() {
   const {
@@ -32,13 +13,15 @@ export function ExperimentRunner() {
     datasets,
     runTestingExperiment,
     runTrainingExperiment,
+    experimentInfo,
+    setExperimentMode,
+    setExperimentTracker,
+    setTrainRunId,
   } = useExperimentRunner();
-  const [experimentMode, setExperimentMode] = useState(ExperimentMode.Train);
-  const [experimentTracker, setExperimentTracker] = useState(ExperimentTracker.Neptune);
 
-  // console.log(datasets);
-  // console.log(neptuneTrackerInfo);
-  // console.log(mlflowTrackerInfo);
+  console.log(datasets);
+  console.log(neptuneTrackerInfo);
+  console.log(mlflowTrackerInfo);
 
   return (
     <Box maw={750} miw={250} mx="auto" mt={20}>
@@ -46,31 +29,33 @@ export function ExperimentRunner() {
         <Text>Режим</Text>
         <GradientSegmentedControl
           onChange={(value) => setExperimentMode(value as ExperimentMode)}
-          defaultValue={experimentMode}
+          value={experimentInfo.mode}
           data={Object.values(ExperimentMode)}
         />
 
         <Text>Инструмент отслеживания экспериментов</Text>
         <GradientSegmentedControl
           onChange={(value) => setExperimentTracker(value as ExperimentTracker)}
-          defaultValue={experimentTracker}
+          value={experimentInfo.tracker}
           data={Object.values(ExperimentTracker)}
         />
       </SimpleGrid>
 
       <Stack mt="xl" mb="xl">
-        <Select data={datasets} label="Набор данных" />
+        <Select data={datasets} value={datasets.at(0)} label="Набор данных" />
         <TextInput label="Название эксперимента" />
 
-        {experimentMode === ExperimentMode.Train && <TrainRunnerParams />}
+        {experimentInfo.mode === ExperimentMode.Train && <TrainRunnerParams />}
 
-        {experimentMode === ExperimentMode.Test && (
+        {experimentInfo.mode === ExperimentMode.Test && (
           <TestRunnerParams
             projects={
-              experimentTracker === ExperimentTracker.MLflow
+              experimentInfo.tracker === ExperimentTracker.MLflow
                 ? mlflowTrackerInfo.projects
                 : neptuneTrackerInfo.projects
             }
+            trainRunId={experimentInfo.trainRunId}
+            setTrainRunId={setTrainRunId}
           />
         )}
       </Stack>

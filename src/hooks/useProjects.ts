@@ -32,6 +32,7 @@ export const useProjects = () => {
   const dispatch = useAppDispatch();
 
   const fetchNeptuneProjects = async () => {
+    // TODO: data might be fetched several times
     if (neptuneTrackerInfo.projectsLoaded) {
       return;
     }
@@ -44,6 +45,7 @@ export const useProjects = () => {
   };
 
   const fetchMLflowProjects = async () => {
+    // TODO: data might be fetched several times
     if (mlflowTrackerInfo.projectsLoaded) {
       return;
     }

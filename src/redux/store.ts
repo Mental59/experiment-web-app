@@ -4,6 +4,7 @@ import { webAppStateReducer } from './webAppState/webAppStateSlice';
 import { mlflowTrackerInfoReducer } from './trackerInfo/mlflowTrackerInfoSlice';
 import { neptuneTrackerInfoReducer } from './trackerInfo/neptuneTrackerInfoSlice';
 import { experimentApiInfoReducer } from './trackerInfo/experimentApiSlice';
+import { experimentInfoReducer } from './experimentInfo/experimentInfoSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     mlflowTrackerInfo: mlflowTrackerInfoReducer,
     neptuneTrackerInfo: neptuneTrackerInfoReducer,
     experimentApiInfo: experimentApiInfoReducer,
+    experimentInfo: experimentInfoReducer,
   },
 });
 

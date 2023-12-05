@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export type ExperimentApiInfoDto = {
+export type ExperimentApiInfo = {
   datasets: string[];
 };
 
-const initialState: ExperimentApiInfoDto = {
+const initialState: ExperimentApiInfo = {
   datasets: [],
 };
 
