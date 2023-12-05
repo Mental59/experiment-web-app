@@ -1,10 +1,11 @@
-import { AppShell, Burger, Group } from '@mantine/core';
+import { Anchor, AppShell, Burger, Group } from '@mantine/core';
 import { MantineLogo } from '@mantinex/mantine-logo';
 import { useDisclosure } from '@mantine/hooks';
 import { ExperimentMenu } from '../components/Experiments/ExperimentMenu/ExperimentMenu';
 import { ExperimentMainSection } from '../components/Experiments/ExperimentMainSection/ExperimentMainSection';
 import { ExperimentSettingsSection } from '../components/Experiments/ExperimentSettingsSection/ExperimentSettingsSection';
 import { useActiveSection } from '../hooks/useActiveSection';
+import { MLFLOW_URL } from '../constants';
 
 export function HomePage() {
   const [burgerOpened, { toggle: toggleBurger }] = useDisclosure();
@@ -14,6 +15,7 @@ export function HomePage() {
     <AppShell
       header={{ height: 60 }}
       navbar={{ width: 100, breakpoint: 'sm', collapsed: { mobile: !burgerOpened } }}
+      aside={{ width: 90, breakpoint: 'sm' }}
       padding="md"
     >
       <AppShell.Header>
@@ -26,6 +28,12 @@ export function HomePage() {
       <AppShell.Navbar p="md">
         <ExperimentMenu />
       </AppShell.Navbar>
+
+      <AppShell.Aside p="md">
+        <Anchor href={MLFLOW_URL} target="_blank" underline="hover">
+          MLflow
+        </Anchor>
+      </AppShell.Aside>
 
       <AppShell.Main>
         {activeSection === 'ExperimentsSection' && <ExperimentMainSection />}
