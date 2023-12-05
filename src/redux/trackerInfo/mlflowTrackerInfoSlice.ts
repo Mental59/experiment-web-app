@@ -4,7 +4,7 @@ import type {
   ExperimentProjectInfoDto,
 } from '../../models/experimentTrackers/experimentTrackerInfo.type';
 import type { RunOutputDto } from '../../models/experiment/run.type';
-import { ExperimentRunType } from '../../models/experimentTrackers/experiment.type';
+import { ExperimentRunTypeDto } from '../../models/experimentTrackers/experiment.type';
 
 export type MLflowExperimentTrackerInfo = ExperimentTrackerInfoDto & {
   projectsLoaded: boolean;
@@ -34,7 +34,7 @@ export const mlflowTrackerInfoSlice = createSlice({
     },
     addMLflowRun: (
       state,
-      action: PayloadAction<RunOutputDto & { run_type: ExperimentRunType }>
+      action: PayloadAction<RunOutputDto & { run_type: ExperimentRunTypeDto }>
     ) => {
       const runOutput = action.payload;
 

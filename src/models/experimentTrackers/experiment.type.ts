@@ -1,2 +1,2 @@
-export type TrackerType = 'neptune' | 'mlflow';
-export type ExperimentRunType = 'train' | 'test' | 'unknown';
+export type ExperimentTrackerDto = 'neptune' | 'mlflow';
+export type ExperimentRunTypeDto = 'train' | 'test' | 'unknown';

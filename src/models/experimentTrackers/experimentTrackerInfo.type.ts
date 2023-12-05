@@ -1,9 +1,9 @@
-import type { ExperimentRunType, TrackerType } from './experiment.type';
+import type { ExperimentRunTypeDto, ExperimentTrackerDto } from './experiment.type';
 
 export type ExperimentRunInfoDto = {
   run_id: string;
   run_name: string;
-  run_type: ExperimentRunType;
+  run_type: ExperimentRunTypeDto;
 };
 
 export type ExperimentProjectInfoDto = {
@@ -13,6 +13,6 @@ export type ExperimentProjectInfoDto = {
 };
 
 export type ExperimentTrackerInfoDto = {
-  tracker: TrackerType;
+  tracker: ExperimentTrackerDto;
   projects: ExperimentProjectInfoDto[];
 };

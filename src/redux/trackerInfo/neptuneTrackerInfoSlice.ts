@@ -4,7 +4,7 @@ import type {
   ExperimentProjectInfoDto,
 } from '../../models/experimentTrackers/experimentTrackerInfo.type';
 import { RunOutputDto } from '../../models/experiment/run.type';
-import { ExperimentRunType } from '../../models/experimentTrackers/experiment.type';
+import { ExperimentRunTypeDto } from '../../models/experimentTrackers/experiment.type';
 
 export type NeptuneExperimentTrackerInfo = ExperimentTrackerInfoDto & {
   apiToken: string;
@@ -46,7 +46,7 @@ export const neptuneTrackerInfoSlice = createSlice({
     },
     addNeptuneRun: (
       state,
-      action: PayloadAction<RunOutputDto & { run_type: ExperimentRunType }>
+      action: PayloadAction<RunOutputDto & { run_type: ExperimentRunTypeDto }>
     ) => {
       const runOutput = action.payload;
 

@@ -6,9 +6,10 @@ export const useExperimentRunner = () => {
   const {
     neptuneTrackerInfo,
     mlflowTrackerInfo,
-    addRun,
     fetchMLflowProjects,
     fetchNeptuneProjects,
+    runTestingExperiment,
+    runTrainingExperiment,
   } = useProjects();
   const { datasets, fetchDatasets } = useDatasets();
 
@@ -20,5 +21,11 @@ export const useExperimentRunner = () => {
     fetchData();
   }, []);
 
-  return { neptuneTrackerInfo, mlflowTrackerInfo, datasets, addRun };
+  return {
+    neptuneTrackerInfo,
+    mlflowTrackerInfo,
+    datasets,
+    runTestingExperiment,
+    runTrainingExperiment,
+  };
 };

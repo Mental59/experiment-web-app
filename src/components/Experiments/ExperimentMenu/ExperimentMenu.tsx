@@ -1,5 +1,5 @@
 import { Tooltip, UnstyledButton, Stack, rem } from '@mantine/core';
-import { IconHome2, IconMicroscope, IconSettings } from '@tabler/icons-react';
+import { IconHome2, IconLink, IconMicroscope, IconSettings } from '@tabler/icons-react';
 import classes from './ExperimentMenu.module.css';
 import type { ExperimentActiveSection } from '../../../models/experiment/section.type';
 import { useActiveSection } from '../../../hooks/useActiveSection';
@@ -28,6 +28,11 @@ const navbarData: NavbarLinkProps[] = [
     icon: IconSettings,
     label: 'Настройки',
     section: 'ExperimentSettingsSection',
+  },
+  {
+    icon: IconLink,
+    label: 'Ссылки',
+    section: 'Links',
   },
 ];
 
