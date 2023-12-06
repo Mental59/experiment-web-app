@@ -11,18 +11,25 @@ export function ExperimentRunner() {
     neptuneTrackerInfo,
     mlflowTrackerInfo,
     datasets,
-    runTestingExperiment,
-    runTrainingExperiment,
+    runExperiment,
     experimentInfo,
     setExperimentMode,
     setExperimentTracker,
+    setExperimentProject,
+    setExperimentDataset,
+    setExperimentRunName,
     setTrainRunId,
+    ...trainRunnerSetters
   } = useExperimentRunner();
 
-  const trainRunIdParsed =
-    experimentInfo.trainRunId !== null
-      ? experimentInfo.trainRunId.split(' ')[1].slice(1, -1)
-      : experimentInfo.trainRunId;
+  const projects =
+    experimentInfo.tracker === ExperimentTracker.MLflow
+      ? mlflowTrackerInfo.projects
+      : neptuneTrackerInfo.projects;
+
+  console.log(experimentInfo);
+
+  // TODO: при изменении трекера значения проекта и обучающего эксперимента остаются со старого трекера экспериментов
 
   return (
     <Box maw={750} miw={250} mx="auto" mt={20}>
@@ -43,18 +50,34 @@ export function ExperimentRunner() {
       </SimpleGrid>
 
       <Stack mt="xl" mb="xl">
-        <Select data={datasets} value={datasets.at(0)} label="Набор данных" />
-        <TextInput label="Название эксперимента" />
+        <Select
+          data={datasets}
+          value={experimentInfo.dataset}
+          onChange={setExperimentDataset}
+          label="Набор данных"
+          placeholder="Выберите набор данных"
+        />
+        <Select
+          data={projects.map((project) => `${project.project_name} (${project.project_id})`)}
+          value={experimentInfo.project}
+          onChange={setExperimentProject}
+          label="Проект"
+          placeholder="Выберите проект"
+        />
+        <TextInput
+          value={experimentInfo.runName ?? ''}
+          onChange={(event) => setExperimentRunName(event.target.value)}
+          label="Название эксперимента"
+          placeholder="Введите название эксперимента"
+        />
 
-        {experimentInfo.mode === ExperimentMode.Train && <TrainRunnerParams />}
+        {experimentInfo.mode === ExperimentMode.Train && (
+          <TrainRunnerParams experimentInfo={experimentInfo} {...trainRunnerSetters} />
+        )}
 
         {experimentInfo.mode === ExperimentMode.Test && (
           <TestRunnerParams
-            projects={
-              experimentInfo.tracker === ExperimentTracker.MLflow
-                ? mlflowTrackerInfo.projects
-                : neptuneTrackerInfo.projects
-            }
+            projects={projects}
             trainRunId={experimentInfo.trainRunId}
             setTrainRunId={setTrainRunId}
           />
@@ -62,7 +85,7 @@ export function ExperimentRunner() {
       </Stack>
 
       <Group justify="center">
-        <Button onClick={() => console.log('Запуск обучения/тестирования')}>Запустить</Button>
+        <Button onClick={() => runExperiment()}>Запустить</Button>
       </Group>
     </Box>
   );

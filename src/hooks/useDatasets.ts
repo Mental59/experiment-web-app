@@ -17,7 +17,7 @@ export const useDatasetsUpload = () => {
       const _datasets = await uploadDatasets(files);
 
       notifications.show({
-        title: 'Загрузка наборов данных',
+        title: 'Наборы данных',
         message: 'Наборы данных успешно загружены',
       });
 
@@ -27,7 +27,7 @@ export const useDatasetsUpload = () => {
       const axiosErr = err as AxiosError;
 
       notifications.show({
-        title: 'Загрузка наборов данных',
+        title: 'Наборы данных',
         message: `Ошибка при загрузке: ${axiosErr.message}`,
         color: 'red',
       });
