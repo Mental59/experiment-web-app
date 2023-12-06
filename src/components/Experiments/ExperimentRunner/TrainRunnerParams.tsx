@@ -1,4 +1,4 @@
-import { Checkbox, NumberInput, NumberInputProps, Select, Slider, Text } from '@mantine/core';
+import { Checkbox, NumberInput, Select, Slider, Text } from '@mantine/core';
 import { ExperimentMLModel } from '../../../models/experimentRunner/experimentModel';
 import { type ExperimentInfo } from '../../../redux/experimentInfo/experimentInfoSlice';
 
