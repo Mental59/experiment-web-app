@@ -19,9 +19,10 @@ export function ExperimentRunner() {
     setTrainRunId,
   } = useExperimentRunner();
 
-  console.log(datasets);
-  console.log(neptuneTrackerInfo);
-  console.log(mlflowTrackerInfo);
+  const trainRunIdParsed =
+    experimentInfo.trainRunId !== null
+      ? experimentInfo.trainRunId.split(' ')[1].slice(1, -1)
+      : experimentInfo.trainRunId;
 
   return (
     <Box maw={750} miw={250} mx="auto" mt={20}>

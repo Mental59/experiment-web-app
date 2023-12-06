@@ -11,7 +11,7 @@ type TestRunnerParamsProps = {
 export function TestRunnerParams({ projects, trainRunId, setTrainRunId }: TestRunnerParamsProps) {
   const runs = projects.flatMap((project) => project.runs);
   const trainRuns = runs.filter((run) => run.run_type === 'train');
-  const trainRunIds = trainRuns.map((run) => run.run_id);
+  const trainRunIds = trainRuns.map((run) => `${run.run_name} (${run.run_id})`);
 
   useEffect(() => {
     if (trainRunId && !trainRunIds.includes(trainRunId)) {
