@@ -72,7 +72,7 @@ export const useExperimentRunner = () => {
       const axiosErr = err as AxiosError;
       showErrorNotification(
         `Обучающий эксперимент ${params.run_name} завершился с ошибкой: ${
-          axiosErr.response?.data.message ?? axiosErr.message
+          (axiosErr.response?.data as any).message ?? axiosErr.message
         }`
       );
     }
@@ -102,7 +102,7 @@ export const useExperimentRunner = () => {
       const axiosErr = err as AxiosError;
       showErrorNotification(
         `Тестирующий эксперимент ${params.run_name} завершился с ошибкой: ${
-          axiosErr.response?.data.message ?? axiosErr.message
+          (axiosErr.response?.data as any).message ?? axiosErr.message
         }`
       );
     }
