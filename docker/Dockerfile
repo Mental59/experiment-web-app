@@ -8,6 +8,6 @@ RUN npm i
 
 COPY . .
 
-EXPOSE 5002
+EXPOSE 8080
 
 CMD npm run build && npm run preview
