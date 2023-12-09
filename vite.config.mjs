@@ -10,7 +10,12 @@ export default defineConfig({
     setupFiles: './vitest.setup.mjs',
   },
   server: {
-    port: 5002,
+    port: 8080,
+    host: true,
+    strictPort: true,
+  },
+  preview: {
+    port: 8080,
     host: true,
     strictPort: true,
   },
