@@ -24,6 +24,7 @@ export function TestRunnerParams({ projects, trainRunId, setTrainRunId }: TestRu
       onChange={setTrainRunId}
       placeholder="Выберите обучающий эксперимент"
       label="Обучающий эксперимент"
+      withAsterisk
     />
   );
 }

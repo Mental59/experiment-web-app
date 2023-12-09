@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import { useDatasets } from './useDatasets';
 import { useProjects } from './useProjects';
@@ -34,6 +33,7 @@ import {
   runNeptuneTestingExperiment,
   runNeptuneTrainingExperiment,
 } from '../requests/runExperiment';
+import { showDefaultNotification, showErrorNotification } from '../utils/notifier';
 
 export const useExperimentRunner = () => {
   const {
@@ -57,10 +57,7 @@ export const useExperimentRunner = () => {
     params: RunTrainingInputDto;
     project: string;
   }) => {
-    notifications.show({
-      title: 'Эксперимент',
-      message: `Запущен эксперимент ${params.run_name}`,
-    });
+    showDefaultNotification(`Запущен обучающий эксперимент ${params.run_name}`);
 
     const promise =
       tracker === ExperimentTracker.MLflow
@@ -70,13 +67,14 @@ export const useExperimentRunner = () => {
     try {
       const res = await promise;
       addRun({ ...res, run_type: 'train' });
+      showDefaultNotification(`Обучающий эксперимент ${params.run_name} успешно завершился`);
     } catch (err) {
       const axiosErr = err as AxiosError;
-      notifications.show({
-        title: 'Эксперимент',
-        message: `Эксперимент ${params.run_name} завершился с ошибкой: ${axiosErr.message}`,
-        color: 'red',
-      });
+      showErrorNotification(
+        `Обучающий эксперимент ${params.run_name} завершился с ошибкой: ${
+          axiosErr.response?.data.message ?? axiosErr.message
+        }`
+      );
     }
   };
 
@@ -89,10 +87,7 @@ export const useExperimentRunner = () => {
     params: RunTestingInputDto;
     project: string;
   }) => {
-    notifications.show({
-      title: 'Эксперимент',
-      message: `Запущен эксперимент ${params.run_name}`,
-    });
+    showDefaultNotification(`Запущен тестирующий эксперимент ${params.run_name}`);
 
     const promise =
       tracker === ExperimentTracker.MLflow
@@ -102,44 +97,32 @@ export const useExperimentRunner = () => {
     try {
       const res = await promise;
       addRun({ ...res, run_type: 'test' });
+      showDefaultNotification(`Тестирущий эксперимент ${params.run_name} успешно завершился`);
     } catch (err) {
       const axiosErr = err as AxiosError;
-      notifications.show({
-        title: 'Эксперимент',
-        message: `Эксперимент ${params.run_name} завершился с ошибкой: ${axiosErr.message}`,
-        color: 'red',
-      });
+      showErrorNotification(
+        `Тестирующий эксперимент ${params.run_name} завершился с ошибкой: ${
+          axiosErr.response?.data.message ?? axiosErr.message
+        }`
+      );
     }
   };
 
   const runExperiment = () => {
     if (!experimentInfo.dataset) {
-      notifications.show({ title: 'Эксперимент', message: 'Не указан набор данных', color: 'red' });
+      showErrorNotification('Не указан набор данных');
       return;
     }
 
     if (!experimentInfo.runName) {
-      notifications.show({
-        title: 'Эксперимент',
-        message: 'Не указано название эксперимента',
-        color: 'red',
-      });
+      showErrorNotification('Не указано название эксперимента');
       return;
     }
 
     if (!experimentInfo.project) {
-      notifications.show({
-        title: 'Эксперимент',
-        message: 'Не указано название проекта',
-        color: 'red',
-      });
+      showErrorNotification('Не указано название проекта');
       return;
     }
-
-    // const trainRunIdParsed =
-    //   experimentInfo.trainRunId !== null
-    //     ? experimentInfo.trainRunId.split(' ')[1].slice(1, -1)
-    //     : experimentInfo.trainRunId;
 
     if (experimentInfo.mode === ExperimentMode.Train) {
       runTrainingExperiment({
@@ -169,11 +152,7 @@ export const useExperimentRunner = () => {
       });
     } else {
       if (!experimentInfo.trainRunId) {
-        notifications.show({
-          title: 'Эксперимент',
-          message: 'Не указано обучающий эксперимент',
-          color: 'red',
-        });
+        showErrorNotification('Не указан обучающий эксперимент');
         return;
       }
 
@@ -182,7 +161,7 @@ export const useExperimentRunner = () => {
         params: {
           dataset: experimentInfo.dataset,
           run_name: experimentInfo.runName,
-          train_run_id: experimentInfo.trainRunId,
+          train_run_id: experimentInfo.trainRunId.split(' ')[1].slice(1, -1),
         },
         project: experimentInfo.project,
       });

@@ -1,10 +1,10 @@
 import { FileWithPath } from '@mantine/dropzone';
-import { notifications } from '@mantine/notifications';
 import { AxiosError } from 'axios';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { setDatasets } from '../redux/trackerInfo/experimentApiSlice';
 import { setDatasetsLoaded, setDatasetsLoading } from '../redux/webAppState/webAppStateSlice';
 import { getDatasets, uploadDatasets } from '../requests/datasets';
+import { showDefaultNotification, showErrorNotification } from '../utils/notifier';
 
 export const useDatasetsUpload = () => {
   const datasetsLoading = useAppSelector((state) => state.webAppState.datasetsLoading);
@@ -16,21 +16,13 @@ export const useDatasetsUpload = () => {
 
       const _datasets = await uploadDatasets(files);
 
-      notifications.show({
-        title: 'Наборы данных',
-        message: 'Наборы данных успешно загружены',
-      });
+      showDefaultNotification('Наборы данных успешно загружены');
 
       dispatch(setDatasets(_datasets));
       dispatch(setDatasetsLoaded(true));
     } catch (err) {
       const axiosErr = err as AxiosError;
-
-      notifications.show({
-        title: 'Наборы данных',
-        message: `Ошибка при загрузке: ${axiosErr.message}`,
-        color: 'red',
-      });
+      showErrorNotification(`Ошибка при загрузке: ${axiosErr.message}`);
     } finally {
       dispatch(setDatasetsLoading(false));
     }

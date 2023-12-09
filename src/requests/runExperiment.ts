@@ -18,7 +18,7 @@ export const runNeptuneTrainingExperiment = async (
 };
 
 export const runMLflowTrainingExperiment = async (data: RunTrainingInputDto, project: string) => {
-  const response = await axios.post<RunOutputDto>(`${API_URL}/ml/train-neptune`, data, {
+  const response = await axios.post<RunOutputDto>(`${API_URL}/ml/train-mlflow`, data, {
     params: { project },
   });
   return response.data;
@@ -36,7 +36,7 @@ export const runNeptuneTestingExperiment = async (
 };
 
 export const runMLflowTestingExperiment = async (data: RunTestingInputDto, project: string) => {
-  const response = await axios.post<RunOutputDto>(`${API_URL}/ml/test-neptune`, data, {
+  const response = await axios.post<RunOutputDto>(`${API_URL}/ml/test-mlflow`, data, {
     params: { project },
   });
   return response.data;

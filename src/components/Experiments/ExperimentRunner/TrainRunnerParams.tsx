@@ -1,6 +1,7 @@
-import { Checkbox, NumberInput, Select, Slider, Text } from '@mantine/core';
+import { Checkbox, NumberInput, NumberInputProps, Select, Slider, Text } from '@mantine/core';
 import { ExperimentMLModel } from '../../../models/experimentRunner/experimentModel';
 import { type ExperimentInfo } from '../../../redux/experimentInfo/experimentInfoSlice';
+import { clamp } from '../../../utils/math';
 
 type TrainRunnerProps = {
   experimentInfo: ExperimentInfo;
@@ -18,6 +19,18 @@ type TrainRunnerProps = {
   setNum2words: (num2words: boolean) => void;
 };
 
+function CustomNumberInput({
+  setFunc,
+  ...props
+}: NumberInputProps & { setFunc: (value: number) => void }) {
+  return (
+    <NumberInput
+      onChange={(value) => setFunc(clamp(Number(value), props.min, props.max))}
+      {...props}
+    />
+  );
+}
+
 export function TrainRunnerParams({
   experimentInfo,
   setBatchSize,
@@ -33,10 +46,6 @@ export function TrainRunnerParams({
   setTestSize,
   setWeightDecay,
 }: TrainRunnerProps) {
-  const setFromNumberInput = (value: string | number, setter: (value: number) => void) => {
-    console.log(Number(value));
-  };
-
   return (
     <>
       <Select
@@ -44,7 +53,9 @@ export function TrainRunnerParams({
         onChange={(value) => setMLModel(value as ExperimentMLModel)}
         value={experimentInfo.model}
         data={Object.values(ExperimentMLModel)}
+        allowDeselect={false}
         placeholder="Выберите модель"
+        withAsterisk
       />
       <Checkbox
         checked={experimentInfo.caseSensitive}
@@ -56,52 +67,56 @@ export function TrainRunnerParams({
         onChange={() => setNum2words(!experimentInfo.num2words)}
         label="Использовать метод num2words?"
       />
-      <NumberInput
-        defaultValue={experimentInfo.embeddingDim}
+      <CustomNumberInput
+        value={experimentInfo.embeddingDim}
         min={1}
         max={2048}
         step={10}
         clampBehavior="strict"
         allowNegative={false}
         allowDecimal={false}
-        onChange={(value) => setFromNumberInput(value, setEmbeddingDim)}
+        setFunc={setEmbeddingDim}
         label="Размерность эмбеддинга (1-2048)"
+        withAsterisk
       />
-      <NumberInput
-        defaultValue={experimentInfo.hiddenDim}
+      <CustomNumberInput
+        value={experimentInfo.hiddenDim}
         min={1}
         max={2048}
         step={10}
         clampBehavior="strict"
         allowNegative={false}
         allowDecimal={false}
-        onChange={(value) => setFromNumberInput(value, setHiddenDim)}
+        setFunc={setHiddenDim}
         label="Размерность скрытого слоя (1-2048)"
+        withAsterisk
       />
-      <NumberInput
-        defaultValue={experimentInfo.batchSize}
+      <CustomNumberInput
+        value={experimentInfo.batchSize}
         min={1}
         max={16384}
         step={10}
         clampBehavior="strict"
         allowNegative={false}
         allowDecimal={false}
-        onChange={(value) => setFromNumberInput(value, setBatchSize)}
+        setFunc={setBatchSize}
         label="Размерность батча (1-16384)"
+        withAsterisk
       />
-      <NumberInput
-        defaultValue={experimentInfo.numEpochs}
+      <CustomNumberInput
+        value={experimentInfo.numEpochs}
         min={1}
         max={10000}
         step={5}
         clampBehavior="strict"
         allowNegative={false}
         allowDecimal={false}
-        onChange={(value) => setFromNumberInput(value, setNumEpochs)}
+        setFunc={setNumEpochs}
         label="Количество эпох (1-10000)"
+        withAsterisk
       />
-      <NumberInput
-        defaultValue={experimentInfo.learningRate}
+      <CustomNumberInput
+        value={experimentInfo.learningRate}
         min={0}
         max={100}
         step={0.001}
@@ -109,11 +124,12 @@ export function TrainRunnerParams({
         decimalScale={7}
         allowNegative={false}
         fixedDecimalScale
-        onChange={(value) => setFromNumberInput(value, setLearningRate)}
+        setFunc={setLearningRate}
         label="Скорость обучения (0-100)"
+        withAsterisk
       />
-      <NumberInput
-        defaultValue={experimentInfo.schedulerFactor}
+      <CustomNumberInput
+        value={experimentInfo.schedulerFactor}
         min={0}
         max={100}
         step={0.01}
@@ -121,22 +137,24 @@ export function TrainRunnerParams({
         decimalScale={4}
         allowNegative={false}
         fixedDecimalScale
-        onChange={(value) => setFromNumberInput(value, setSchedulerFactor)}
+        setFunc={setSchedulerFactor}
         label="Фактор планировщика (0-100)"
+        withAsterisk
       />
-      <NumberInput
-        defaultValue={experimentInfo.schedulerPatience}
+      <CustomNumberInput
+        value={experimentInfo.schedulerPatience}
         min={1}
         max={100}
         step={2}
         clampBehavior="strict"
         allowNegative={false}
         allowDecimal={false}
-        onChange={(value) => setFromNumberInput(value, setSchedulerPatience)}
+        setFunc={setSchedulerPatience}
         label="Терпение планировщика (1-100)"
+        withAsterisk
       />
-      <NumberInput
-        defaultValue={experimentInfo.weightDecay}
+      <CustomNumberInput
+        value={experimentInfo.weightDecay}
         min={0}
         max={100}
         step={0.001}
@@ -144,8 +162,9 @@ export function TrainRunnerParams({
         decimalScale={7}
         allowNegative={false}
         fixedDecimalScale
-        onChange={(value) => setFromNumberInput(value, setWeightDecay)}
+        setFunc={setWeightDecay}
         label="Регуляризация (0-100)"
+        withAsterisk
       />
       <Text>Размер тестовой выборки</Text>
       <Slider

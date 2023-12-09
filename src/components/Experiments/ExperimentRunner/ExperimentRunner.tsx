@@ -28,11 +28,11 @@ export function ExperimentRunner() {
       ? mlflowTrackerInfo.projects
       : neptuneTrackerInfo.projects;
 
-  console.log(experimentInfo);
-
   useEffect(() => {
     setExperimentProject(null);
   }, [projects]);
+
+  console.log(projects);
 
   return (
     <Box maw={750} miw={250} mx="auto" mt={20}>
@@ -59,19 +59,22 @@ export function ExperimentRunner() {
           onChange={setExperimentDataset}
           label="Набор данных"
           placeholder="Выберите набор данных"
+          withAsterisk
         />
         <Select
-          data={projects.map((project) => `${project.project_name} (${project.project_id})`)}
+          data={projects.map((project) => project.project_name)}
           value={experimentInfo.project}
           onChange={setExperimentProject}
           label="Проект"
           placeholder="Выберите проект"
+          withAsterisk
         />
         <TextInput
           value={experimentInfo.runName ?? ''}
           onChange={(event) => setExperimentRunName(event.target.value)}
           label="Название эксперимента"
           placeholder="Введите название эксперимента"
+          withAsterisk
         />
 
         {experimentInfo.mode === ExperimentMode.Train && (
