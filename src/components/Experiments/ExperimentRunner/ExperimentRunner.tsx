@@ -1,4 +1,5 @@
 import { Box, Button, Group, Select, SimpleGrid, Stack, Text, TextInput } from '@mantine/core';
+import { useEffect } from 'react';
 import { useExperimentRunner } from '../../../hooks/useExperimentRunner';
 import { GradientSegmentedControl } from '../../GradientSegmentedControl/GradientSegmentedControl';
 import { ExperimentMode } from '../../../models/experimentRunner/experimentMode';
@@ -29,7 +30,9 @@ export function ExperimentRunner() {
 
   console.log(experimentInfo);
 
-  // TODO: при изменении трекера значения проекта и обучающего эксперимента остаются со старого трекера экспериментов
+  useEffect(() => {
+    setExperimentProject(null);
+  }, [projects]);
 
   return (
     <Box maw={750} miw={250} mx="auto" mt={20}>
