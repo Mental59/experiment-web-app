@@ -32,8 +32,6 @@ export function ExperimentRunner() {
     setExperimentProject(null);
   }, [projects]);
 
-  console.log(projects);
-
   return (
     <Box maw={750} miw={250} mx="auto" mt={20}>
       <SimpleGrid cols={2} spacing="sm">

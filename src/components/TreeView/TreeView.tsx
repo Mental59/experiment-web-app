@@ -1,12 +1,12 @@
 import { Group, GroupProps, NavLink } from '@mantine/core';
 
-export type Tree = {
+export type TreeData = {
   label: string;
-  children?: Tree[];
+  children?: TreeData[];
 };
-export type TreeViewProps = GroupProps & { tree: Tree[] };
+export type TreeViewProps = GroupProps & { tree: TreeData[] };
 
-function createTreeView(tree?: Tree[]) {
+function createTreeView(tree?: TreeData[]) {
   if (!tree || tree.length === 0) {
     return undefined;
   }
