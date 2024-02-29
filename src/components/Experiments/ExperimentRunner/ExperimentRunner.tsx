@@ -89,7 +89,9 @@ export function ExperimentRunner() {
       </Stack>
 
       <Group justify="center">
-        <Button onClick={() => runExperiment()}>Запустить</Button>
+        <Button w={200} h={50} onClick={() => runExperiment()}>
+          Запустить
+        </Button>
       </Group>
     </Box>
   );

@@ -1,15 +1,23 @@
-import { Group, Text, rem } from '@mantine/core';
+import { Group, Text, rem, useMantineColorScheme } from '@mantine/core';
 import { IconUpload, IconTextRecognition, IconX } from '@tabler/icons-react';
 import { Dropzone, DropzoneProps } from '@mantine/dropzone';
 import { useHover } from '@mantine/hooks';
 
-export function DatasetDropzone(props: DropzoneProps) {
+export type DataDropzoneProps = {
+  dropzoneTitle: string;
+  dropzoneDescription: string;
+} & DropzoneProps;
+
+export function DataDropzone({ dropzoneTitle, dropzoneDescription, ...props }: DataDropzoneProps) {
   const { hovered, ref } = useHover();
+  const { colorScheme } = useMantineColorScheme();
+  const hoveredColor =
+    colorScheme === 'dark' ? 'var(--mantine-color-gray-7)' : 'var(--mantine-color-gray-2)';
 
   return (
     <Dropzone
       ref={ref}
-      bg={hovered ? 'var(--mantine-color-gray-7)' : 'var(--mantine-primary-color)'}
+      bg={hovered ? hoveredColor : 'var(--mantine-primary-color)'}
       maxSize={250 * 1024 ** 2}
       accept={['text/plain']}
       {...props}
@@ -36,10 +44,10 @@ export function DatasetDropzone(props: DropzoneProps) {
 
         <div>
           <Text size="xl" inline>
-            Перетащите наборы данных или нажмите для выбора файлов
+            {dropzoneTitle}
           </Text>
           <Text size="sm" c="dimmed" inline mt={7}>
-            Принимаются только текстовые файлы. Размер каждого файла не должен превышать 250 МБ
+            {dropzoneDescription}
           </Text>
         </div>
       </Group>

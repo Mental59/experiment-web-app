@@ -5,6 +5,7 @@ export type WebAppState = {
   activeSection: ExperimentActiveSection;
   settingsLoading: boolean;
   datasetsLoading: boolean;
+  sourceCodeLoading: boolean;
   datasetsLoaded: boolean;
 };
 
@@ -13,6 +14,7 @@ const initialState: WebAppState = {
   settingsLoading: false,
   datasetsLoading: false,
   datasetsLoaded: false,
+  sourceCodeLoading: false,
 };
 
 export const webAppStateSlice = createSlice({
@@ -35,9 +37,18 @@ export const webAppStateSlice = createSlice({
       const datasetsLoaded = action.payload;
       state.datasetsLoaded = datasetsLoaded;
     },
+    setSourceCodeLoading: (state, action: PayloadAction<boolean>) => {
+      const sourceCodeLoading = action.payload;
+      state.sourceCodeLoading = sourceCodeLoading;
+    },
   },
 });
 
-export const { setActiveSection, setSettingsLoading, setDatasetsLoading, setDatasetsLoaded } =
-  webAppStateSlice.actions;
+export const {
+  setActiveSection,
+  setSettingsLoading,
+  setDatasetsLoading,
+  setDatasetsLoaded,
+  setSourceCodeLoading,
+} = webAppStateSlice.actions;
 export const webAppStateReducer = webAppStateSlice.reducer;

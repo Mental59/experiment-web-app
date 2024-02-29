@@ -2,5 +2,5 @@ export type ExperimentActiveSection = 'ExperimentsSection' | 'ExperimentSettings
 
 export enum ExperimentMainSectionTab {
   Datasets = 'datasets',
-  Runner = 'runner',
+  Experiments = 'experiments',
 }

@@ -9,7 +9,7 @@ import '@mantine/notifications/styles.css';
 
 export default function App() {
   return (
-    <MantineProvider theme={theme} defaultColorScheme="dark">
+    <MantineProvider theme={theme} defaultColorScheme="light">
       <ReduxProvider store={store}>
         <Notifications position="top-right" zIndex={1000} limit={5} autoClose={10000} />
         <Router />

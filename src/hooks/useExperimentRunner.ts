@@ -130,8 +130,7 @@ export const useExperimentRunner = () => {
         params: {
           dataset: experimentInfo.dataset,
           run_name: experimentInfo.runName,
-          model:
-            experimentInfo.model === ExperimentMLModel.BiLSTM_CRF ? 'BiLSTM_CRF' : 'BiLSTM_CRF',
+          model: experimentInfo.model === ExperimentMLModel.LSTM_CRF ? 'LSTM_CRF' : 'LSTM_CRF',
           model_params: {
             embedding_dim: experimentInfo.embeddingDim,
             hidden_dim: experimentInfo.hiddenDim,

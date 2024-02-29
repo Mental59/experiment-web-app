@@ -1,3 +1,3 @@
 export enum ExperimentMLModel {
-  BiLSTM_CRF = 'BiLSTM-CRF',
+  LSTM_CRF = 'LSTM-CRF',
 }

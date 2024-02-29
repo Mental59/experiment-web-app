@@ -2,6 +2,7 @@ import { Group, GroupProps, NavLink } from '@mantine/core';
 
 export type TreeData = {
   label: string;
+  key: string;
   children?: TreeData[];
 };
 export type TreeViewProps = GroupProps & { tree: TreeData[] };
@@ -12,7 +13,7 @@ function createTreeView(tree?: TreeData[]) {
   }
 
   return tree.map((node) => (
-    <NavLink label={node.label} childrenOffset={28}>
+    <NavLink label={node.label} childrenOffset={28} key={node.key}>
       {createTreeView(node.children)}
     </NavLink>
   ));

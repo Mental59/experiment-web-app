@@ -2,6 +2,7 @@ import { Checkbox, NumberInput, NumberInputProps, Select, Slider, Text } from '@
 import { ExperimentMLModel } from '../../../models/experimentRunner/experimentModel';
 import { type ExperimentInfo } from '../../../redux/experimentInfo/experimentInfoSlice';
 import { clamp } from '../../../utils/math';
+import { useAppSelector } from '../../../redux/store';
 
 type TrainRunnerProps = {
   experimentInfo: ExperimentInfo;
@@ -46,13 +47,16 @@ export function TrainRunnerParams({
   setTestSize,
   setWeightDecay,
 }: TrainRunnerProps) {
+  const sourceCodeModels = useAppSelector((state) => state.ontoParserInfo.sourceCodeModels);
+  const modelNames = sourceCodeModels.map((model) => model.name);
+
   return (
     <>
       <Select
         label="Модель"
-        onChange={(value) => setMLModel(value as ExperimentMLModel)}
-        value={experimentInfo.model}
-        data={Object.values(ExperimentMLModel)}
+        // onChange={(value) => setMLModel(value as ExperimentMLModel)}
+        // value={experimentInfo.model}
+        data={modelNames}
         allowDeselect={false}
         placeholder="Выберите модель"
         withAsterisk

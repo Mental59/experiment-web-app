@@ -31,7 +31,7 @@ const initialState: ExperimentInfo = {
   mode: ExperimentMode.Train,
   tracker: ExperimentTracker.Neptune,
   trainRunId: null,
-  model: ExperimentMLModel.BiLSTM_CRF,
+  model: ExperimentMLModel.LSTM_CRF,
   embeddingDim: 64,
   hiddenDim: 64,
   batchSize: 2048,

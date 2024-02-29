@@ -1,4 +1,4 @@
-export type MLModel = 'BiLSTM_CRF';
+export type MLModel = 'LSTM_CRF';
 
 export type RunTrainingInputDto = {
   model: MLModel;
