@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import type { ExperimentActiveSection } from '../../models/experiment/section.type';
+import { TokenDto } from '../../models/auth/auth.type';
 
 export type WebAppState = {
   activeSection: ExperimentActiveSection;
@@ -7,6 +8,7 @@ export type WebAppState = {
   datasetsLoading: boolean;
   sourceCodeLoading: boolean;
   datasetsLoaded: boolean;
+  token: TokenDto | null;
 };
 
 const initialState: WebAppState = {
@@ -15,6 +17,7 @@ const initialState: WebAppState = {
   datasetsLoading: false,
   datasetsLoaded: false,
   sourceCodeLoading: false,
+  token: null,
 };
 
 export const webAppStateSlice = createSlice({
@@ -41,6 +44,10 @@ export const webAppStateSlice = createSlice({
       const sourceCodeLoading = action.payload;
       state.sourceCodeLoading = sourceCodeLoading;
     },
+    setToken: (state, action: PayloadAction<TokenDto>) => {
+      const token = action.payload;
+      state.token = token;
+    },
   },
 });
 
@@ -50,5 +57,6 @@ export const {
   setDatasetsLoading,
   setDatasetsLoaded,
   setSourceCodeLoading,
+  setToken,
 } = webAppStateSlice.actions;
 export const webAppStateReducer = webAppStateSlice.reducer;
