@@ -5,6 +5,7 @@ import type {
 } from '../../models/experimentTrackers/experimentTrackerInfo.type';
 import { RunOutputDto } from '../../models/experiment/run.type';
 import { ExperimentRunTypeDto } from '../../models/experimentTrackers/experiment.type';
+import { getCachedNeptuneToken, setCachedNeptuneToken } from './cachedNeptuneToken';
 
 export type NeptuneExperimentTrackerInfo = ExperimentTrackerInfoDto & {
   apiToken: string;
@@ -12,11 +13,12 @@ export type NeptuneExperimentTrackerInfo = ExperimentTrackerInfoDto & {
   projectsLoaded: boolean;
 };
 
+const neptuneApiToken = getCachedNeptuneToken();
 const initialState: NeptuneExperimentTrackerInfo = {
   tracker: 'neptune',
-  correctApiToken: false,
+  correctApiToken: !!neptuneApiToken,
   projectsLoaded: false,
-  apiToken: '',
+  apiToken: neptuneApiToken ?? '',
   projects: [],
 };
 
@@ -34,6 +36,7 @@ export const neptuneTrackerInfoSlice = createSlice({
     },
     setNeptuneApiKey: (state, action: PayloadAction<string>) => {
       const apiKey = action.payload;
+      setCachedNeptuneToken(apiKey);
       state.apiToken = apiKey;
     },
     setNeptuneCorrectApiToken: (state, action: PayloadAction<boolean>) => {

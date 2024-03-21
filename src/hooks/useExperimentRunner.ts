@@ -46,6 +46,7 @@ export const useExperimentRunner = () => {
   const { datasets, fetchDatasets } = useDatasets();
 
   const experimentInfo = useAppSelector((state) => state.experimentInfo);
+  const token = useAppSelector((state) => state.webAppState.token);
   const dispatch = useAppDispatch();
 
   const runTrainingExperiment = async ({
@@ -61,8 +62,8 @@ export const useExperimentRunner = () => {
 
     const promise =
       tracker === ExperimentTracker.MLflow
-        ? runMLflowTrainingExperiment(params, project)
-        : runNeptuneTrainingExperiment(params, project, neptuneTrackerInfo.apiToken);
+        ? runMLflowTrainingExperiment(params, project, token)
+        : runNeptuneTrainingExperiment(params, project, neptuneTrackerInfo.apiToken, token);
 
     try {
       const res = await promise;
@@ -91,8 +92,8 @@ export const useExperimentRunner = () => {
 
     const promise =
       tracker === ExperimentTracker.MLflow
-        ? runMLflowTestingExperiment(params, project)
-        : runNeptuneTestingExperiment(params, project, neptuneTrackerInfo.apiToken);
+        ? runMLflowTestingExperiment(params, project, token)
+        : runNeptuneTestingExperiment(params, project, neptuneTrackerInfo.apiToken, token);
 
     try {
       const res = await promise;

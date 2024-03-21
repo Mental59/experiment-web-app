@@ -12,13 +12,14 @@ import { setSourceCodeModels } from '../redux/ontoParser/ontoParserSlice';
 
 export const useSourceCodeUpload = (onFilesUploaded?: () => void) => {
   const sourceCodeLoading = useAppSelector((state) => state.webAppState.sourceCodeLoading);
+  const token = useAppSelector((state) => state.webAppState.token);
   const dispatch = useAppDispatch();
 
   const handleFilesDrop = async (files: FileWithPath[]) => {
     try {
       dispatch(setSourceCodeLoading(true));
 
-      const models = await findModelsInSourceCode(files);
+      const models = await findModelsInSourceCode(files, token);
       dispatch(setSourceCodeModels(models));
 
       const message = `Найдены модели: ${models.length}`;

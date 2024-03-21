@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { API_URL } from '../constants';
 import type { SigninDto, SignupDto, TokenDto, UserDto } from '../models/auth/auth.type';
+import { createAuthHeader } from '../utils/headers';
 
 export const signup = async (signupData: SignupDto) => {
   const response = await axios.post<UserDto>(`${API_URL}/auth/signup`, signupData);
@@ -12,7 +13,9 @@ export const signin = async (signinData: SigninDto) => {
   return response.data;
 };
 
-export const whoami = async () => {
-  const response = await axios.get<UserDto>(`${API_URL}/auth/whoami`);
+export const whoami = async (token: string) => {
+  const response = await axios.get<UserDto>(`${API_URL}/auth/whoami`, {
+    headers: createAuthHeader(token),
+  });
   return response.data;
 };

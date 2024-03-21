@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { HomePage } from './pages/Home.page';
 import { OntoTreeViewDemoPage } from './pages/OntoTreeViewDemo.page';
-import { AuthenticationTitle } from './components/Auth/AuthenticationTitle';
+import { Signin } from './components/Auth/Signin';
+import { Registration } from './components/Auth/Signup';
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/signin',
-    element: <AuthenticationTitle />,
+    element: <Signin />,
+  },
+  {
+    path: '/signup',
+    element: <Registration />,
   },
 ]);
 

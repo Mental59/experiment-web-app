@@ -1,10 +1,11 @@
 import { Anchor, Paper, Title, Text, Container, Button } from '@mantine/core';
-import classes from './AuthenticationTitle.module.css';
+import { useNavigate } from 'react-router-dom';
+import classes from './Signin.module.css';
 import { PasswordInputWithRequirements } from './PasswordInputWithRequirements';
 import { LoginInputWithRequirements } from './LoginInputWithRequirements';
-import { useAuthentication } from '../../hooks/useAuthentication';
+import { useSignin } from '../../hooks/useSignin';
 
-export function AuthenticationTitle() {
+export function Signin() {
   const {
     handleSignin,
     isLoginCorrect,
@@ -13,7 +14,8 @@ export function AuthenticationTitle() {
     setIsPasswordCorrect,
     setLogin,
     setPassword,
-  } = useAuthentication();
+  } = useSignin();
+  const navigate = useNavigate();
 
   return (
     <Container size={420} my={40}>
@@ -22,7 +24,7 @@ export function AuthenticationTitle() {
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Не зарегистрированы?{' '}
-        <Anchor size="sm" component="button">
+        <Anchor onClick={() => navigate('/signup')} size="sm" component="button">
           Создать учетную запись
         </Anchor>
       </Text>

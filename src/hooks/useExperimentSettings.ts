@@ -10,6 +10,7 @@ import { checkNeptuneApiToken } from '../requests/trackerInfo';
 
 export const useExperimentSettings = () => {
   const settingsLoading = useAppSelector((state) => state.webAppState.settingsLoading);
+  const token = useAppSelector((state) => state.webAppState.token);
   const neptuneCorrectApiToken = useAppSelector(
     (state) => state.neptuneTrackerInfo.correctApiToken
   );
@@ -27,7 +28,7 @@ export const useExperimentSettings = () => {
 
     dispatch(setSettingsLoading(true));
 
-    const isTokenCorrect = await checkNeptuneApiToken(neptuneApiToken);
+    const isTokenCorrect = await checkNeptuneApiToken(neptuneApiToken, token);
     dispatch(setNeptuneCorrectApiToken(isTokenCorrect));
     dispatch(setNeptuneProjectsLoaded(false));
     dispatch(setNeptuneProjects([]));

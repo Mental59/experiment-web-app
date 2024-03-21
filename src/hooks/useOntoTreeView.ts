@@ -5,11 +5,12 @@ import { getOntoTreeView } from '../requests/ontoParser';
 
 export const useOntoTreeView = () => {
   const ontoParserInfo = useAppSelector((state) => state.ontoParserInfo);
+  const token = useAppSelector((state) => state.webAppState.token);
   const dispatch = useAppDispatch();
 
   const fetchOntoTreeView = async () => {
     dispatch(setOntoTreeViewLoading(true));
-    const treeViewDto = await getOntoTreeView();
+    const treeViewDto = await getOntoTreeView(token);
     dispatch(setOntoTreeViewDto(treeViewDto));
     dispatch(setOntoTreeViewLoading(false));
   };

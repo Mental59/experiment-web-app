@@ -16,6 +16,7 @@ import type { ExperimentRunTypeDto } from '../models/experimentTrackers/experime
 export const useProjects = () => {
   const neptuneTrackerInfo = useAppSelector((state) => state.neptuneTrackerInfo);
   const mlflowTrackerInfo = useAppSelector((state) => state.mlflowTrackerInfo);
+  const token = useAppSelector((state) => state.webAppState.token);
   const dispatch = useAppDispatch();
 
   const fetchNeptuneProjects = async () => {
@@ -25,7 +26,7 @@ export const useProjects = () => {
     }
 
     if (neptuneTrackerInfo.correctApiToken) {
-      const projects = await getNeptuneTrackerProjects(neptuneTrackerInfo.apiToken);
+      const projects = await getNeptuneTrackerProjects(neptuneTrackerInfo.apiToken, token);
       dispatch(setNeptuneProjects(projects));
       dispatch(setNeptuneProjectsLoaded(true));
     }
@@ -37,7 +38,7 @@ export const useProjects = () => {
       return;
     }
 
-    const projects = await getMLflowTrackerProjects();
+    const projects = await getMLflowTrackerProjects(token);
     dispatch(setMLflowProjects(projects));
     dispatch(setMLflowProjectsLoaded(true));
   };

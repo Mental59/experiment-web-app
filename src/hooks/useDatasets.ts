@@ -8,13 +8,14 @@ import { showDefaultNotification, showErrorNotification } from '../utils/notifie
 
 export const useDatasetsUpload = () => {
   const datasetsLoading = useAppSelector((state) => state.webAppState.datasetsLoading);
+  const token = useAppSelector((state) => state.webAppState.token);
   const dispatch = useAppDispatch();
 
   const handleFilesDrop = async (files: FileWithPath[]) => {
     try {
       dispatch(setDatasetsLoading(true));
 
-      const _datasets = await uploadDatasets(files);
+      const _datasets = await uploadDatasets(files, token);
 
       showDefaultNotification('Наборы данных успешно загружены');
 
@@ -37,6 +38,7 @@ export const useDatasetsUpload = () => {
 export const useDatasets = () => {
   const datasets = useAppSelector((state) => state.experimentApiInfo.datasets);
   const datasetsLoaded = useAppSelector((state) => state.webAppState.datasetsLoaded);
+  const token = useAppSelector((state) => state.webAppState.token);
   const dispatch = useAppDispatch();
 
   const fetchDatasets = async () => {
@@ -45,7 +47,7 @@ export const useDatasets = () => {
       return;
     }
 
-    const _datasets = await getDatasets();
+    const _datasets = await getDatasets(token);
 
     dispatch(setDatasets(_datasets));
     dispatch(setDatasetsLoaded(true));

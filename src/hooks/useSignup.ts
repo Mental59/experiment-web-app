@@ -1,26 +1,25 @@
 import { useState } from 'react';
 import { AxiosError } from 'axios';
-import { useAppDispatch } from '../redux/store';
-import { signin } from '../requests/auth';
-import { setToken } from '../redux/webAppState/webAppStateSlice';
+import { useNavigate } from 'react-router-dom';
+import { signup } from '../requests/auth';
 import { showDefaultNotification, showErrorNotification } from '../utils/notifier';
 
-export const useAuthentication = () => {
+export const useSignup = () => {
   const [isLoginCorrect, setIsLoginCorrect] = useState(false);
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(false);
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const handleSignin = async () => {
+  const handleSignup = async () => {
     try {
-      const token = await signin({ login, password });
-      dispatch(setToken(token));
-      showDefaultNotification('Вход выполнен успешно');
+      await signup({ login, password });
+      showDefaultNotification('Регистрация выполнена успешно');
+      navigate('/signin');
     } catch (err) {
       const axiosError = err as AxiosError;
       const axiosData = axiosError.response?.data as { detail: { message: string } };
-      showErrorNotification(`Ошибка при входе: ${axiosData.detail.message ?? axiosError}`);
+      showErrorNotification(`Ошибка при регистрации: ${axiosData.detail.message ?? axiosError}`);
     }
   };
 
@@ -31,6 +30,6 @@ export const useAuthentication = () => {
     setIsPasswordCorrect,
     setLogin,
     setPassword,
-    handleSignin,
+    handleSignup,
   };
 };
