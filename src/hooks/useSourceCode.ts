@@ -8,7 +8,8 @@ import {
   showWarningNotification,
 } from '../utils/notifier';
 import { findModelsInSourceCode } from '../requests/ontoParser';
-import { setSourceCodeModels } from '../redux/ontoParser/ontoParserSlice';
+import { setAllowedExperimentModels } from '../redux/experimentInfo/experimentInfoSlice';
+import { ExperimentMLModel } from '../models/experimentRunner/experimentModel';
 
 export const useSourceCodeUpload = (onFilesUploaded?: () => void) => {
   const sourceCodeLoading = useAppSelector((state) => state.webAppState.sourceCodeLoading);
@@ -20,7 +21,7 @@ export const useSourceCodeUpload = (onFilesUploaded?: () => void) => {
       dispatch(setSourceCodeLoading(true));
 
       const models = await findModelsInSourceCode(files, token);
-      dispatch(setSourceCodeModels(models));
+      dispatch(setAllowedExperimentModels(models.map((model) => model.name as ExperimentMLModel)));
 
       const message = `Найдены модели: ${models.length}`;
       if (models.length === 0) {

@@ -22,6 +22,7 @@ export type ExperimentInfo = {
   caseSensitive: boolean;
   testSize: number;
   num2words: boolean;
+  allowedModels: ExperimentMLModel[];
 };
 
 const initialState: ExperimentInfo = {
@@ -43,6 +44,7 @@ const initialState: ExperimentInfo = {
   caseSensitive: false,
   testSize: 0.2,
   num2words: true,
+  allowedModels: [],
 };
 
 export const experimentApiInfoSlice = createSlice({
@@ -121,6 +123,10 @@ export const experimentApiInfoSlice = createSlice({
       const project = action.payload;
       state.project = project;
     },
+    setAllowedExperimentModels: (state, action: PayloadAction<ExperimentMLModel[]>) => {
+      const models = action.payload;
+      state.allowedModels = models;
+    },
   },
 });
 
@@ -143,5 +149,6 @@ export const {
   setExperimentDataset,
   setExperimentRunName,
   setExperimentProject,
+  setAllowedExperimentModels,
 } = experimentApiInfoSlice.actions;
 export const experimentInfoReducer = experimentApiInfoSlice.reducer;

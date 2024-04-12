@@ -1,7 +1,11 @@
+export type OntoTreeViewNodeDto = {
+  id: string;
+  name: string;
+  namespace: string;
+  attributes: Record<string, any>;
+};
+
 export type OntoTreeViewDto = {
-  data: {
-    id: string;
-    name: string;
-  };
+  data: OntoTreeViewNodeDto;
   children: OntoTreeViewDto[];
 };

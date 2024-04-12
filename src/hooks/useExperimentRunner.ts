@@ -26,7 +26,7 @@ import {
 import { ExperimentMode } from '../models/experimentRunner/experimentMode';
 import { ExperimentTracker } from '../models/experimentRunner/experimentTracker';
 import { ExperimentMLModel } from '../models/experimentRunner/experimentModel';
-import { RunTestingInputDto, RunTrainingInputDto } from '../models/experiment/run.type';
+import { MLModelDto, RunTestingInputDto, RunTrainingInputDto } from '../models/experiment/run.type';
 import {
   runMLflowTestingExperiment,
   runMLflowTrainingExperiment,
@@ -126,12 +126,28 @@ export const useExperimentRunner = () => {
     }
 
     if (experimentInfo.mode === ExperimentMode.Train) {
+      let model: MLModelDto = 'LSTM_CRF';
+      switch (experimentInfo.model) {
+        case ExperimentMLModel.BERT:
+          model = 'BERT';
+          break;
+        case ExperimentMLModel.CRF:
+          model = 'CRF';
+          break;
+        case ExperimentMLModel.LSTM:
+          model = 'LSTM';
+          break;
+        case ExperimentMLModel.LSTM_CRF:
+          model = 'LSTM_CRF';
+          break;
+      }
+
       runTrainingExperiment({
         tracker: experimentInfo.tracker,
         params: {
           dataset: experimentInfo.dataset,
           run_name: experimentInfo.runName,
-          model: experimentInfo.model === ExperimentMLModel.LSTM_CRF ? 'LSTM_CRF' : 'LSTM_CRF',
+          model,
           model_params: {
             embedding_dim: experimentInfo.embeddingDim,
             hidden_dim: experimentInfo.hiddenDim,

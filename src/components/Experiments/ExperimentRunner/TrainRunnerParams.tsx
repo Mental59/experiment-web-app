@@ -47,16 +47,15 @@ export function TrainRunnerParams({
   setTestSize,
   setWeightDecay,
 }: TrainRunnerProps) {
-  const sourceCodeModels = useAppSelector((state) => state.ontoParserInfo.sourceCodeModels);
-  const modelNames = sourceCodeModels.map((model) => model.name);
+  const allowedModels = useAppSelector((state) => state.experimentInfo.allowedModels);
 
   return (
     <>
       <Select
         label="Модель"
-        // onChange={(value) => setMLModel(value as ExperimentMLModel)}
-        // value={experimentInfo.model}
-        data={modelNames}
+        onChange={(value) => setMLModel(value as ExperimentMLModel)}
+        value={experimentInfo.model}
+        data={allowedModels}
         allowDeselect={false}
         placeholder="Выберите модель"
         withAsterisk

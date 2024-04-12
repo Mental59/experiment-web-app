@@ -1,7 +1,7 @@
-export type MLModel = 'LSTM_CRF';
+export type MLModelDto = 'LSTM_CRF' | 'CRF' | 'BERT' | 'LSTM';
 
 export type RunTrainingInputDto = {
-  model: MLModel;
+  model: MLModelDto;
   dataset: string;
   run_name: string;
 

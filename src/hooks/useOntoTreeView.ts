@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { setOntoTreeViewDto, setOntoTreeViewLoading } from '../redux/ontoParser/ontoParserSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { getOntoTreeView } from '../requests/ontoParser';
+import { ExperimentMetadataDto } from '../models/ontoParser/experimentMetadata.type';
 
 export const useOntoTreeView = () => {
   const ontoParserInfo = useAppSelector((state) => state.ontoParserInfo);
@@ -15,10 +16,24 @@ export const useOntoTreeView = () => {
     dispatch(setOntoTreeViewLoading(false));
   };
 
+  const getExperiments = (): ExperimentMetadataDto[] => {
+    if (ontoParserInfo.treeViewDto.length === 0) {
+      return [];
+    }
+
+    const experimentNode = ontoParserInfo.treeViewDto.find(
+      (node) => node.data.name === 'Experiment'
+    );
+
+    return (
+      experimentNode?.children.map((node) => node.data.attributes as ExperimentMetadataDto) ?? []
+    );
+  };
+
   // TODO: Data might be fetched multiple times
   useEffect(() => {
     fetchOntoTreeView();
   }, []);
 
-  return { ontoParserInfo };
+  return { ontoParserInfo, getExperiments };
 };

@@ -1,35 +1,49 @@
-import { Button, Grid, Group, Stack, Stepper } from '@mantine/core';
+import { Button, Center, Grid, Group, Stack, Stepper, Text } from '@mantine/core';
 import { ExperimentRunner } from '../../Experiments/ExperimentRunner/ExperimentRunner';
 import { SourceCodeUploader } from '../../Experiments/SourceCodeUploader/SourceCodeUploader';
 import { useExperimentTab } from '../../../hooks/useExperimentTab';
-// import { OntoTreeView } from '../../OntoTreeView/OntoTreeView';
+import { ExperimentRunTypeSelector } from '../../Experiments/ExperimentSelector/ExperimentRunTypeSelector';
+import { ExperimentSelectorRunType } from '../../../models/experiment/experimentSelectorRunType.type';
 
 export function ExperimentsTab() {
-  const { active, handleBackButton, handleNextButton, sourceCodeModels } = useExperimentTab();
+  const { active, handleBackButton, handleNextButton, runType, setRunType } = useExperimentTab({
+    numSteps: 3,
+  });
 
   return (
     <Grid gutter={{ base: 5, xs: 'md', md: 'xl', xl: 50 }}>
-      {/* <Grid.Col ml={25} mt={25} span={2}>
-        <OntoTreeView />
-      </Grid.Col> */}
-
       <Grid.Col span={12}>
         <Stack>
           <Group justify="center" mt="xl">
             <Button variant="default" onClick={handleBackButton}>
               Назад
             </Button>
-            <Button onClick={handleNextButton} disabled={sourceCodeModels.length === 0}>
-              Вперед
-            </Button>
+            <Button onClick={handleNextButton}>Вперед</Button>
           </Group>
 
           <Stepper active={active} size="xl">
             <Stepper.Step
-              label="Загрузка исходного кода"
-              description="Загрузите исходный код экспериментов"
+              label="Выбор типа запуска"
+              description="Выберите один из типов запуска эксперимента"
             >
-              <SourceCodeUploader />
+              <ExperimentRunTypeSelector runType={runType} setRunType={setRunType} />
+            </Stepper.Step>
+            <Stepper.Step label="Настройка запуска" description="Настройте выбранный тип запуска">
+              {runType === ExperimentSelectorRunType.Empty && (
+                <Center>
+                  <Text size="xl" fw={700}>
+                    Нет настроек
+                  </Text>
+                </Center>
+              )}
+              {runType === ExperimentSelectorRunType.WithModelsExtraction && <SourceCodeUploader />}
+              {runType === ExperimentSelectorRunType.BasedOnOtherExperiment && (
+                <Center>
+                  <Text size="xl" fw={700}>
+                    Таблица с экспериментами
+                  </Text>
+                </Center>
+              )}
             </Stepper.Step>
             <Stepper.Step
               label="Запуск эксперимента"
