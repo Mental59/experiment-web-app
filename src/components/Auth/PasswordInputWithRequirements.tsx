@@ -7,10 +7,12 @@ const meetsCriteria = (value: string) => value.length >= 6;
 export type PasswordInputWithRequirementsProps = {
   setIsCorrect: (value: boolean) => void;
   setPassword: (value: string) => void;
+  showRequirementDropDown: boolean;
 };
 export function PasswordInputWithRequirements({
   setIsCorrect,
   setPassword,
+  showRequirementDropDown,
 }: PasswordInputWithRequirementsProps) {
   const [popoverOpened, setPopoverOpened] = useState(false);
   const [value, setValue] = useState('');
@@ -45,9 +47,11 @@ export function PasswordInputWithRequirements({
           />
         </div>
       </Popover.Target>
-      <Popover.Dropdown>
-        <Requirement label="Содержит 6 символов" meets={meetsCriteria(value)} />
-      </Popover.Dropdown>
+      {showRequirementDropDown && (
+        <Popover.Dropdown>
+          <Requirement label="Содержит 6 символов" meets={meetsCriteria(value)} />
+        </Popover.Dropdown>
+      )}
     </Popover>
   );
 }

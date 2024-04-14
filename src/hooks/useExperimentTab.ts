@@ -28,7 +28,10 @@ export const useExperimentTab = ({ numSteps }: { numSteps: number }) => {
   };
 
   useEffect(() => {
-    if (runType === ExperimentSelectorRunType.Empty) {
+    if (
+      runType === ExperimentSelectorRunType.Empty ||
+      runType === ExperimentSelectorRunType.BasedOnOtherExperiment
+    ) {
       allowAllModels();
     } else {
       clearAllowedExperimentModels();

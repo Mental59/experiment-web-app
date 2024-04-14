@@ -27,8 +27,8 @@ export type ExperimentParametersDto = {
   scheduler_patience: number;
   test_size: number;
   weight_decay: number;
-  train_run_id: string;
-  unknown_labels: boolean;
+  train_run_id?: string;
+  unknown_labels?: boolean;
 };
 
 export type ExperimentTrackerInfoDto = {

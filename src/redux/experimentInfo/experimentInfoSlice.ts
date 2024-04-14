@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ExperimentMode } from '../../models/experimentRunner/experimentMode';
 import { ExperimentTracker } from '../../models/experimentRunner/experimentTracker';
 import { ExperimentMLModel } from '../../models/experimentRunner/experimentModel';
+import { ExperimentMetadataDto } from '../../models/ontoParser/experimentMetadata.type';
 
 export type ExperimentInfo = {
   dataset: string | null;
@@ -127,6 +128,33 @@ export const experimentApiInfoSlice = createSlice({
       const models = action.payload;
       state.allowedModels = models;
     },
+    setExperimentParameters: (state, action: PayloadAction<ExperimentMetadataDto>) => {
+      const metadata = action.payload;
+      state.batchSize = metadata.parameters.batch_size;
+      state.caseSensitive = metadata.parameters.case_sensitive;
+      state.dataset = metadata.parameters.dataset;
+      state.embeddingDim = metadata.parameters.embedding_dim;
+      state.hiddenDim = metadata.parameters.hidden_dim;
+      state.learningRate = metadata.parameters.learning_rate;
+      state.mode =
+        metadata.parameters.experiment_mode === 'train'
+          ? ExperimentMode.Train
+          : ExperimentMode.Test;
+      state.model = metadata.parameters.model_name as ExperimentMLModel;
+      state.num2words = metadata.parameters.num2words;
+      state.numEpochs = metadata.parameters.num_epochs;
+      state.project = null;
+      state.runName = null;
+      state.schedulerFactor = metadata.parameters.scheduler_factor;
+      state.schedulerPatience = metadata.parameters.scheduler_patience;
+      state.testSize = metadata.parameters.test_size;
+      state.tracker =
+        metadata.tracker_info.experiment_tracker === 'mlflow'
+          ? ExperimentTracker.MLflow
+          : ExperimentTracker.Neptune;
+      state.trainRunId = metadata.parameters.train_run_id ?? null;
+      state.weightDecay = metadata.parameters.weight_decay;
+    },
   },
 });
 
@@ -150,5 +178,6 @@ export const {
   setExperimentRunName,
   setExperimentProject,
   setAllowedExperimentModels,
+  setExperimentParameters,
 } = experimentApiInfoSlice.actions;
 export const experimentInfoReducer = experimentApiInfoSlice.reducer;

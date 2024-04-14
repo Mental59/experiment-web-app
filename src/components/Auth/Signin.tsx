@@ -30,8 +30,13 @@ export function Signin() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <LoginInputWithRequirements setIsCorrect={setIsLoginCorrect} setLogin={setLogin} />
+        <LoginInputWithRequirements
+          showRequirementDropDown={false}
+          setIsCorrect={setIsLoginCorrect}
+          setLogin={setLogin}
+        />
         <PasswordInputWithRequirements
+          showRequirementDropDown={false}
           setIsCorrect={setIsPasswordCorrect}
           setPassword={setPassword}
         />

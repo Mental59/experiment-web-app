@@ -7,10 +7,12 @@ const meetsCriteria = (value: string) => value.length >= 4;
 export type LoginInputWithRequirementsProps = {
   setIsCorrect: (value: boolean) => void;
   setLogin: (value: string) => void;
+  showRequirementDropDown: boolean;
 };
 export function LoginInputWithRequirements({
   setIsCorrect,
   setLogin,
+  showRequirementDropDown,
 }: LoginInputWithRequirementsProps) {
   const [popoverOpened, setPopoverOpened] = useState(false);
   const [value, setValue] = useState('');
@@ -44,9 +46,11 @@ export function LoginInputWithRequirements({
           />
         </div>
       </Popover.Target>
-      <Popover.Dropdown>
-        <Requirement label="Содержит 4 символа" meets={meetsCriteria(value)} />
-      </Popover.Dropdown>
+      {showRequirementDropDown && (
+        <Popover.Dropdown>
+          <Requirement label="Содержит 4 символа" meets={meetsCriteria(value)} />
+        </Popover.Dropdown>
+      )}
     </Popover>
   );
 }

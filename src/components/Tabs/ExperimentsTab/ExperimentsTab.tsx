@@ -4,6 +4,7 @@ import { SourceCodeUploader } from '../../Experiments/SourceCodeUploader/SourceC
 import { useExperimentTab } from '../../../hooks/useExperimentTab';
 import { ExperimentRunTypeSelector } from '../../Experiments/ExperimentSelector/ExperimentRunTypeSelector';
 import { ExperimentSelectorRunType } from '../../../models/experiment/experimentSelectorRunType.type';
+import { ExperimentTable } from '../../Experiments/ExperimentTable/ExperimentTable';
 
 export function ExperimentsTab() {
   const { active, handleBackButton, handleNextButton, runType, setRunType } = useExperimentTab({
@@ -37,13 +38,7 @@ export function ExperimentsTab() {
                 </Center>
               )}
               {runType === ExperimentSelectorRunType.WithModelsExtraction && <SourceCodeUploader />}
-              {runType === ExperimentSelectorRunType.BasedOnOtherExperiment && (
-                <Center>
-                  <Text size="xl" fw={700}>
-                    Таблица с экспериментами
-                  </Text>
-                </Center>
-              )}
+              {runType === ExperimentSelectorRunType.BasedOnOtherExperiment && <ExperimentTable />}
             </Stepper.Step>
             <Stepper.Step
               label="Запуск эксперимента"

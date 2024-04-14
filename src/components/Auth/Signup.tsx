@@ -30,8 +30,13 @@ export function Registration() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <LoginInputWithRequirements setIsCorrect={setIsLoginCorrect} setLogin={setLogin} />
+        <LoginInputWithRequirements
+          showRequirementDropDown
+          setIsCorrect={setIsLoginCorrect}
+          setLogin={setLogin}
+        />
         <PasswordInputWithRequirements
+          showRequirementDropDown
           setIsCorrect={setIsPasswordCorrect}
           setPassword={setPassword}
         />
