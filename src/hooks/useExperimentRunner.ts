@@ -147,6 +147,7 @@ export const useExperimentRunner = () => {
         params: {
           dataset: experimentInfo.dataset,
           run_name: experimentInfo.runName,
+          base_experiment_id: experimentInfo.baseExperimentId,
           model,
           model_params: {
             embedding_dim: experimentInfo.embeddingDim,
@@ -178,6 +179,7 @@ export const useExperimentRunner = () => {
           dataset: experimentInfo.dataset,
           run_name: experimentInfo.runName,
           train_run_id: experimentInfo.trainRunId.split(' ')[1].slice(1, -1),
+          base_experiment_id: experimentInfo.baseExperimentId,
         },
         project: experimentInfo.project,
       });

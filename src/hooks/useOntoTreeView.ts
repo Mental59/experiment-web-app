@@ -3,7 +3,10 @@ import { setOntoTreeViewDto, setOntoTreeViewLoading } from '../redux/ontoParser/
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { getOntoTreeView } from '../requests/ontoParser';
 import { ExperimentMetadataDto } from '../models/ontoParser/experimentMetadata.type';
-import { setExperimentParameters } from '../redux/experimentInfo/experimentInfoSlice';
+import {
+  setBaseExperimentId,
+  setExperimentParameters,
+} from '../redux/experimentInfo/experimentInfoSlice';
 
 export const useOntoTreeView = () => {
   const ontoParserInfo = useAppSelector((state) => state.ontoParserInfo);
@@ -33,6 +36,7 @@ export const useOntoTreeView = () => {
 
   const setExperimentParametersFromMetadata = (experiment: ExperimentMetadataDto) => {
     dispatch(setExperimentParameters(experiment));
+    dispatch(setBaseExperimentId(experiment.tracker_info.run_id));
   };
 
   // TODO: Data might be fetched multiple times

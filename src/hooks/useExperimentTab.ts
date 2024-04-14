@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../redux/store';
 import { clamp } from '../utils/math';
 import { ExperimentSelectorRunType } from '../models/experiment/experimentSelectorRunType.type';
-import { setAllowedExperimentModels } from '../redux/experimentInfo/experimentInfoSlice';
+import {
+  setAllowedExperimentModels,
+  setBaseExperimentId,
+} from '../redux/experimentInfo/experimentInfoSlice';
 import { ExperimentMLModel } from '../models/experimentRunner/experimentModel';
 
 export const useExperimentTab = ({ numSteps }: { numSteps: number }) => {
@@ -36,6 +39,7 @@ export const useExperimentTab = ({ numSteps }: { numSteps: number }) => {
     } else {
       clearAllowedExperimentModels();
     }
+    dispatch(setBaseExperimentId(null));
   }, [runType]);
 
   return { handleBackButton, handleNextButton, active, runType, setRunType };

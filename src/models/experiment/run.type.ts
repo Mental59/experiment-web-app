@@ -4,6 +4,7 @@ export type RunTrainingInputDto = {
   model: MLModelDto;
   dataset: string;
   run_name: string;
+  base_experiment_id: string | null;
 
   model_params: {
     embedding_dim: number;
@@ -27,6 +28,7 @@ export type RunTestingInputDto = {
   dataset: string;
   run_name: string;
   train_run_id: string;
+  base_experiment_id: string | null;
 };
 
 export type RunOutputDto = {

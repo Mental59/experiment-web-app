@@ -24,6 +24,7 @@ export type ExperimentInfo = {
   testSize: number;
   num2words: boolean;
   allowedModels: ExperimentMLModel[];
+  baseExperimentId: string | null;
 };
 
 const initialState: ExperimentInfo = {
@@ -46,6 +47,7 @@ const initialState: ExperimentInfo = {
   testSize: 0.2,
   num2words: true,
   allowedModels: [],
+  baseExperimentId: null,
 };
 
 export const experimentApiInfoSlice = createSlice({
@@ -155,6 +157,10 @@ export const experimentApiInfoSlice = createSlice({
       state.trainRunId = metadata.parameters.train_run_id ?? null;
       state.weightDecay = metadata.parameters.weight_decay;
     },
+    setBaseExperimentId: (state, action: PayloadAction<string | null>) => {
+      const experimentId = action.payload;
+      state.baseExperimentId = experimentId;
+    },
   },
 });
 
@@ -179,5 +185,6 @@ export const {
   setExperimentProject,
   setAllowedExperimentModels,
   setExperimentParameters,
+  setBaseExperimentId,
 } = experimentApiInfoSlice.actions;
 export const experimentInfoReducer = experimentApiInfoSlice.reducer;
