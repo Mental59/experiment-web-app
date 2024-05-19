@@ -12,7 +12,7 @@ export function ExperimentRunner() {
     neptuneTrackerInfo,
     mlflowTrackerInfo,
     datasets,
-    runExperiment,
+    runBiLSTMCRFExperiment,
     experimentInfo,
     setExperimentMode,
     setExperimentTracker,
@@ -89,7 +89,7 @@ export function ExperimentRunner() {
       </Stack>
 
       <Group justify="center">
-        <Button w={200} h={50} onClick={() => runExperiment()}>
+        <Button w={200} h={50} onClick={() => runBiLSTMCRFExperiment()}>
           Запустить
         </Button>
       </Group>

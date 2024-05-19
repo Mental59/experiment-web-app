@@ -25,12 +25,14 @@ import {
 import { ExperimentMode } from '../models/experimentRunner/experimentMode';
 import { ExperimentTracker } from '../models/experimentRunner/experimentTracker';
 import { ExperimentMLModel } from '../models/experimentRunner/experimentModel';
-import { MLModelDto, RunTestingInputDto, RunTrainingInputDto } from '../models/experiment/run.type';
 import {
-  runMLflowTestingExperiment,
-  runMLflowTrainingExperiment,
-  runNeptuneTestingExperiment,
-  runNeptuneTrainingExperiment,
+  MLModelDto,
+  BiLSTMCRFRunTestingInputDto,
+  BiLSTMCRFRunTrainingInputDto,
+} from '../models/experiment/run.type';
+import {
+  runBiLSTMCRFTestingExperiment,
+  runBiLSTMCRFTrainingExperiment,
 } from '../requests/runExperiment';
 import {
   getErrorMessageFromException,
@@ -52,24 +54,22 @@ export const useExperimentRunner = () => {
   const token = useAppSelector((state) => state.webAppState.token);
   const dispatch = useAppDispatch();
 
-  const runTrainingExperiment = async ({
-    tracker,
+  const _runBiLSTMCRFTrainingExperiment = async ({
     params,
     project,
   }: {
-    tracker: ExperimentTracker;
-    params: RunTrainingInputDto;
+    params: BiLSTMCRFRunTrainingInputDto;
     project: string;
   }) => {
     showDefaultNotification(`Запущен обучающий эксперимент ${params.run_name}`);
 
-    const promise =
-      tracker === ExperimentTracker.MLflow
-        ? runMLflowTrainingExperiment(params, project, token)
-        : runNeptuneTrainingExperiment(params, project, neptuneTrackerInfo.apiToken, token);
-
     try {
-      const res = await promise;
+      const res = await runBiLSTMCRFTrainingExperiment({
+        data: params,
+        jwtToken: token,
+        project,
+        apiToken: neptuneTrackerInfo.apiToken,
+      });
       addRun({ ...res, run_type: 'train' });
       showDefaultNotification(`Обучающий эксперимент ${params.run_name} успешно завершился`);
     } catch (err) {
@@ -81,24 +81,22 @@ export const useExperimentRunner = () => {
     }
   };
 
-  const runTestingExperiment = async ({
-    tracker,
+  const _runBiLSTMCRFTestingExperiment = async ({
     params,
     project,
   }: {
-    tracker: ExperimentTracker;
-    params: RunTestingInputDto;
+    params: BiLSTMCRFRunTestingInputDto;
     project: string;
   }) => {
     showDefaultNotification(`Запущен тестирующий эксперимент ${params.run_name}`);
 
-    const promise =
-      tracker === ExperimentTracker.MLflow
-        ? runMLflowTestingExperiment(params, project, token)
-        : runNeptuneTestingExperiment(params, project, neptuneTrackerInfo.apiToken, token);
-
     try {
-      const res = await promise;
+      const res = await runBiLSTMCRFTestingExperiment({
+        data: params,
+        jwtToken: token,
+        project,
+        apiToken: neptuneTrackerInfo.apiToken,
+      });
       addRun({ ...res, run_type: 'test' });
       showDefaultNotification(`Тестирущий эксперимент ${params.run_name} успешно завершился`);
     } catch (err) {
@@ -110,7 +108,7 @@ export const useExperimentRunner = () => {
     }
   };
 
-  const runExperiment = () => {
+  const runBiLSTMCRFExperiment = () => {
     if (!experimentInfo.dataset) {
       showErrorNotification('Не указан набор данных');
       return;
@@ -143,13 +141,13 @@ export const useExperimentRunner = () => {
           break;
       }
 
-      runTrainingExperiment({
-        tracker: experimentInfo.tracker,
+      _runBiLSTMCRFTrainingExperiment({
         params: {
           dataset: experimentInfo.dataset,
           run_name: experimentInfo.runName,
           base_experiment_id: experimentInfo.baseExperimentId,
-          model,
+          experiment_tracker:
+            experimentInfo.tracker === ExperimentTracker.MLflow ? 'mlflow' : 'neptune',
           model_params: {
             embedding_dim: experimentInfo.embeddingDim,
             hidden_dim: experimentInfo.hiddenDim,
@@ -174,13 +172,14 @@ export const useExperimentRunner = () => {
         return;
       }
 
-      runTestingExperiment({
-        tracker: experimentInfo.tracker,
+      _runBiLSTMCRFTestingExperiment({
         params: {
           dataset: experimentInfo.dataset,
           run_name: experimentInfo.runName,
           train_run_id: experimentInfo.trainRunId.split(' ')[1].slice(1, -1),
           base_experiment_id: experimentInfo.baseExperimentId,
+          experiment_tracker:
+            experimentInfo.tracker === ExperimentTracker.MLflow ? 'mlflow' : 'neptune',
         },
         project: experimentInfo.project,
       });
@@ -199,7 +198,7 @@ export const useExperimentRunner = () => {
     neptuneTrackerInfo,
     mlflowTrackerInfo,
     datasets,
-    runExperiment,
+    runBiLSTMCRFExperiment,
     experimentInfo,
     setExperimentProject: (project: string | null) => dispatch(setExperimentProject(project)),
     setExperimentDataset: (dataset: string | null) => dispatch(setExperimentDataset(dataset)),

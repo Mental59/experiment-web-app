@@ -3,9 +3,8 @@ import { AxiosError } from 'axios';
 
 export const getErrorMessageFromException = (err: any) => {
   const axiosErr = err as AxiosError;
-  return (
-    (axiosErr.response?.data as { detail: { message: string } }).detail.message ?? axiosErr.message
-  );
+  const responseData = axiosErr.response?.data as { detail: { message: string } };
+  return responseData?.detail?.message ?? axiosErr.message ?? `${err}`;
 };
 
 export const showErrorNotification = (message: string) =>

@@ -1,10 +1,10 @@
 export type MLModelDto = 'LSTM_CRF' | 'CRF' | 'BERT' | 'LSTM';
 
-export type RunTrainingInputDto = {
-  model: MLModelDto;
+export type BiLSTMCRFRunTrainingInputDto = {
   dataset: string;
   run_name: string;
   base_experiment_id: string | null;
+  experiment_tracker: 'neptune' | 'mlflow';
 
   model_params: {
     embedding_dim: number;
@@ -24,11 +24,12 @@ export type RunTrainingInputDto = {
   };
 };
 
-export type RunTestingInputDto = {
+export type BiLSTMCRFRunTestingInputDto = {
   dataset: string;
   run_name: string;
   train_run_id: string;
   base_experiment_id: string | null;
+  experiment_tracker: 'neptune' | 'mlflow';
 };
 
 export type RunOutputDto = {
