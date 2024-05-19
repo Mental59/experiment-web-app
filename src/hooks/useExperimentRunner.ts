@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { AxiosError } from 'axios';
 import { useDatasets } from './useDatasets';
 import { useProjects } from './useProjects';
 import { useAppDispatch, useAppSelector } from '../redux/store';
@@ -33,7 +32,11 @@ import {
   runNeptuneTestingExperiment,
   runNeptuneTrainingExperiment,
 } from '../requests/runExperiment';
-import { showDefaultNotification, showErrorNotification } from '../utils/notifier';
+import {
+  getErrorMessageFromException,
+  showDefaultNotification,
+  showErrorNotification,
+} from '../utils/notifier';
 
 export const useExperimentRunner = () => {
   const {
@@ -70,11 +73,10 @@ export const useExperimentRunner = () => {
       addRun({ ...res, run_type: 'train' });
       showDefaultNotification(`Обучающий эксперимент ${params.run_name} успешно завершился`);
     } catch (err) {
-      const axiosErr = err as AxiosError;
       showErrorNotification(
-        `Обучающий эксперимент ${params.run_name} завершился с ошибкой: ${
-          (axiosErr.response?.data as any).message ?? axiosErr.message
-        }`
+        `Обучающий эксперимент ${
+          params.run_name
+        } завершился с ошибкой: ${getErrorMessageFromException(err)}`
       );
     }
   };
@@ -100,11 +102,10 @@ export const useExperimentRunner = () => {
       addRun({ ...res, run_type: 'test' });
       showDefaultNotification(`Тестирущий эксперимент ${params.run_name} успешно завершился`);
     } catch (err) {
-      const axiosErr = err as AxiosError;
       showErrorNotification(
-        `Тестирующий эксперимент ${params.run_name} завершился с ошибкой: ${
-          (axiosErr.response?.data as any).message ?? axiosErr.message
-        }`
+        `Тестирующий эксперимент ${
+          params.run_name
+        } завершился с ошибкой: ${getErrorMessageFromException(err)}`
       );
     }
   };

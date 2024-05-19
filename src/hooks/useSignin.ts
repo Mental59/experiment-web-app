@@ -1,10 +1,13 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../redux/store';
 import { signin } from '../requests/auth';
 import { setToken } from '../redux/webAppState/webAppStateSlice';
-import { showDefaultNotification, showErrorNotification } from '../utils/notifier';
+import {
+  getErrorMessageFromException,
+  showDefaultNotification,
+  showErrorNotification,
+} from '../utils/notifier';
 
 export const useSignin = () => {
   const [isLoginCorrect, setIsLoginCorrect] = useState(false);
@@ -21,9 +24,7 @@ export const useSignin = () => {
       showDefaultNotification('Вход выполнен успешно');
       navigate('/');
     } catch (err) {
-      const axiosError = err as AxiosError;
-      const axiosData = axiosError.response?.data as { detail: { message: string } };
-      showErrorNotification(`Ошибка при входе: ${axiosData.detail.message ?? axiosError}`);
+      showErrorNotification(`Ошибка при входе: ${getErrorMessageFromException(err)}`);
     }
   };
 

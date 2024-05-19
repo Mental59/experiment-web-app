@@ -1,8 +1,8 @@
 import { FileWithPath } from '@mantine/dropzone';
-import { AxiosError } from 'axios';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { setSourceCodeLoading } from '../redux/webAppState/webAppStateSlice';
 import {
+  getErrorMessageFromException,
   showDefaultNotification,
   showErrorNotification,
   showWarningNotification,
@@ -32,8 +32,7 @@ export const useSourceCodeUpload = (onFilesUploaded?: () => void) => {
 
       if (onFilesUploaded) onFilesUploaded();
     } catch (err) {
-      const axiosErr = err as AxiosError;
-      showErrorNotification(`Ошибка при загрузке: ${axiosErr.message}`);
+      showErrorNotification(`Ошибка при загрузке: ${getErrorMessageFromException(err)}`);
     } finally {
       dispatch(setSourceCodeLoading(false));
     }

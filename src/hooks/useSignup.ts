@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../requests/auth';
-import { showDefaultNotification, showErrorNotification } from '../utils/notifier';
+import {
+  getErrorMessageFromException,
+  showDefaultNotification,
+  showErrorNotification,
+} from '../utils/notifier';
 
 export const useSignup = () => {
   const [isLoginCorrect, setIsLoginCorrect] = useState(false);
@@ -17,9 +20,7 @@ export const useSignup = () => {
       showDefaultNotification('Регистрация выполнена успешно');
       navigate('/signin');
     } catch (err) {
-      const axiosError = err as AxiosError;
-      const axiosData = axiosError.response?.data as { detail: { message: string } };
-      showErrorNotification(`Ошибка при регистрации: ${axiosData.detail.message ?? axiosError}`);
+      showErrorNotification(`Ошибка при регистрации: ${getErrorMessageFromException(err)}`);
     }
   };
 
