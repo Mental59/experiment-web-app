@@ -42,3 +42,35 @@ export const runBiLSTMCRFTestingExperiment = async ({
   });
   return response.data;
 };
+
+export const testTransformerByModelName = async ({
+  apiToken,
+  data,
+  jwtToken,
+  project,
+}: {
+  data: {
+    dataset: string;
+    run_name: string;
+    experiment_tracker: 'mlflow' | 'neptune';
+    model_name_or_path: string;
+    base_experiment_id?: string;
+    batch_size?: number;
+    num_workers?: number;
+    task?: string;
+  };
+  project: string;
+  apiToken?: string;
+  jwtToken: string;
+}) => {
+  const response = await axios.post<RunOutputDto>(
+    `${API_URL}/ml/test-transformer-by-model-name`,
+    data,
+    {
+      params: { project, api_token: apiToken },
+      headers: createAuthHeader(jwtToken),
+    }
+  );
+
+  return response.data;
+};

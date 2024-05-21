@@ -4,13 +4,14 @@ import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { ExperimentMenu } from '../components/Experiments/ExperimentMenu/ExperimentMenu';
-import { ExperimentMainSection } from '../components/Experiments/ExperimentMainSection/ExperimentMainSection';
-import { ExperimentSettingsSection } from '../components/Experiments/ExperimentSettingsSection/ExperimentSettingsSection';
 import { useActiveSection } from '../hooks/useActiveSection';
-import { LinksSection } from '../components/Experiments/LinksSection/LinksSection';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { whoami } from '../requests/auth';
 import { setToken } from '../redux/webAppState/webAppStateSlice';
+import { OntologySection } from '../components/Sections/OntologySection/OntologySection';
+import { ExperimentMainSection } from '../components/Sections/ExperimentMainSection/ExperimentMainSection';
+import { ExperimentSettingsSection } from '../components/Sections/ExperimentSettingsSection/ExperimentSettingsSection';
+import { LinksSection } from '../components/Sections/LinksSection/LinksSection';
 
 export function HomePage() {
   const [burgerOpened, { toggle: toggleBurger }] = useDisclosure();
@@ -66,6 +67,7 @@ export function HomePage() {
         {activeSection === 'ExperimentsSection' && <ExperimentMainSection />}
         {activeSection === 'ExperimentSettingsSection' && <ExperimentSettingsSection />}
         {activeSection === 'Links' && <LinksSection />}
+        {activeSection === 'Ontology' && <OntologySection />}
       </AppShell.Main>
     </AppShell>
   );

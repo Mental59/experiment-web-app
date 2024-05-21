@@ -8,5 +8,6 @@ module.exports = {
     'linebreak-style': 0,
     '@typescript-eslint/no-unused-vars': 'warn',
     'no-param-reassign': 'off',
+    'for-direction': 'off',
   },
 };

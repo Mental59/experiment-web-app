@@ -1,4 +1,8 @@
-export type ExperimentActiveSection = 'ExperimentsSection' | 'ExperimentSettingsSection' | 'Links';
+export type ExperimentActiveSection =
+  | 'ExperimentsSection'
+  | 'ExperimentSettingsSection'
+  | 'Links'
+  | 'Ontology';
 
 export enum ExperimentMainSectionTab {
   Datasets = 'datasets',
