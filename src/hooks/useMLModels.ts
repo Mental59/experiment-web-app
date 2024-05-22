@@ -7,10 +7,14 @@ import {
   showDefaultNotification,
   showErrorNotification,
 } from '../utils/notifier';
+import { setExperimentUserModelNameOrPath } from '../redux/experimentInfo/experimentInfoSlice';
 
 export const useMLModels = () => {
   const token = useAppSelector((state) => state.webAppState.token);
   const mlModels = useAppSelector((state) => state.ontoParserInfo.mlModels);
+  const selectedUserMLModelNameOrPath = useAppSelector(
+    (state) => state.experimentInfo.experimentUserModelNameOrPath
+  );
   const dispatch = useAppDispatch();
 
   const fetchMLModels = async () => {
@@ -45,5 +49,11 @@ export const useMLModels = () => {
     fetchMLModels();
   }, []);
 
-  return { mlModels, addMLModel };
+  return {
+    mlModels,
+    addMLModel,
+    selectedMLModel: selectedUserMLModelNameOrPath,
+    setSelectedUserMLModelNameOrPath: (nameOrPath: string | null) =>
+      dispatch(setExperimentUserModelNameOrPath(nameOrPath)),
+  };
 };

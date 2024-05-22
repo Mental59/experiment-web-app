@@ -21,6 +21,7 @@ import {
   setTestSize,
   setTrainRunId,
   setWeightDecay,
+  setExperimentRunnerModelType,
 } from '../redux/experimentInfo/experimentInfoSlice';
 import { ExperimentMode } from '../models/experimentRunner/experimentMode';
 import { ExperimentTracker } from '../models/experimentRunner/experimentTracker';
@@ -33,12 +34,14 @@ import {
 import {
   runBiLSTMCRFTestingExperiment,
   runBiLSTMCRFTrainingExperiment,
+  testTransformerByModelName,
 } from '../requests/runExperiment';
 import {
   getErrorMessageFromException,
   showDefaultNotification,
   showErrorNotification,
 } from '../utils/notifier';
+import { ExperimentRunnerModelType } from '../models/experimentRunner/experimentModelType';
 
 export const useExperimentRunner = () => {
   const {
@@ -186,6 +189,54 @@ export const useExperimentRunner = () => {
     }
   };
 
+  const runExperimentWithUserModel = async () => {
+    if (!experimentInfo.dataset) {
+      showErrorNotification('Не указан набор данных');
+      return;
+    }
+
+    if (!experimentInfo.runName) {
+      showErrorNotification('Не указано название эксперимента');
+      return;
+    }
+
+    if (!experimentInfo.project) {
+      showErrorNotification('Не указано название проекта');
+      return;
+    }
+
+    if (!experimentInfo.experimentUserModelNameOrPath) {
+      showErrorNotification('Не указана загруженная модель');
+      return;
+    }
+
+    const { runName } = experimentInfo;
+
+    try {
+      showDefaultNotification(`Запущен тестирующий эксперимент ${runName}`);
+      const res = await testTransformerByModelName({
+        data: {
+          dataset: experimentInfo.dataset,
+          experiment_tracker:
+            experimentInfo.tracker === ExperimentTracker.MLflow ? 'mlflow' : 'neptune',
+          model_name_or_path: experimentInfo.experimentUserModelNameOrPath,
+          run_name: runName,
+        },
+        jwtToken: token,
+        project: experimentInfo.project,
+        apiToken: neptuneTrackerInfo.apiToken,
+      });
+      addRun({ ...res, run_type: 'test' });
+      showDefaultNotification(`Тестирущий эксперимент ${runName} успешно завершился`);
+    } catch (err) {
+      showErrorNotification(
+        `Тестирующий эксперимент ${runName} завершился с ошибкой: ${getErrorMessageFromException(
+          err
+        )}`
+      );
+    }
+  };
+
   const fetchData = async () => {
     await Promise.all([fetchMLflowProjects(), fetchNeptuneProjects(), fetchDatasets()]);
   };
@@ -199,6 +250,7 @@ export const useExperimentRunner = () => {
     mlflowTrackerInfo,
     datasets,
     runBiLSTMCRFExperiment,
+    runExperimentWithUserModel,
     experimentInfo,
     setExperimentProject: (project: string | null) => dispatch(setExperimentProject(project)),
     setExperimentDataset: (dataset: string | null) => dispatch(setExperimentDataset(dataset)),
@@ -219,5 +271,7 @@ export const useExperimentRunner = () => {
     setCaseSensitive: (caseSensitive: boolean) => dispatch(setCaseSensitive(caseSensitive)),
     setTestSize: (testSize: number) => dispatch(setTestSize(testSize)),
     setNum2words: (num2words: boolean) => dispatch(setNum2words(num2words)),
+    setExperimentRunnerModelType: (type: ExperimentRunnerModelType) =>
+      dispatch(setExperimentRunnerModelType(type)),
   };
 };

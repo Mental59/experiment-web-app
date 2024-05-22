@@ -3,6 +3,7 @@ import { ExperimentMode } from '../../models/experimentRunner/experimentMode';
 import { ExperimentTracker } from '../../models/experimentRunner/experimentTracker';
 import { ExperimentMLModel } from '../../models/experimentRunner/experimentModel';
 import { ExperimentMetadataDto } from '../../models/ontoParser/experimentMetadata.type';
+import { ExperimentRunnerModelType } from '../../models/experimentRunner/experimentModelType';
 
 export type ExperimentInfo = {
   dataset: string | null;
@@ -25,6 +26,8 @@ export type ExperimentInfo = {
   num2words: boolean;
   allowedModels: ExperimentMLModel[];
   baseExperimentId: string | null;
+  experimentRunnerModelType: ExperimentRunnerModelType;
+  experimentUserModelNameOrPath: string | null;
 };
 
 const initialState: ExperimentInfo = {
@@ -48,6 +51,8 @@ const initialState: ExperimentInfo = {
   num2words: true,
   allowedModels: [],
   baseExperimentId: null,
+  experimentRunnerModelType: ExperimentRunnerModelType.BuiltInModels,
+  experimentUserModelNameOrPath: null,
 };
 
 export const experimentApiInfoSlice = createSlice({
@@ -161,6 +166,12 @@ export const experimentApiInfoSlice = createSlice({
       const experimentId = action.payload;
       state.baseExperimentId = experimentId;
     },
+    setExperimentRunnerModelType: (state, action: PayloadAction<ExperimentRunnerModelType>) => {
+      state.experimentRunnerModelType = action.payload;
+    },
+    setExperimentUserModelNameOrPath: (state, action: PayloadAction<string | null>) => {
+      state.experimentUserModelNameOrPath = action.payload;
+    },
   },
 });
 
@@ -186,5 +197,7 @@ export const {
   setAllowedExperimentModels,
   setExperimentParameters,
   setBaseExperimentId,
+  setExperimentRunnerModelType,
+  setExperimentUserModelNameOrPath,
 } = experimentApiInfoSlice.actions;
 export const experimentInfoReducer = experimentApiInfoSlice.reducer;

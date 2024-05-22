@@ -8,7 +8,11 @@ type TestRunnerParamsProps = {
   setTrainRunId: (runId: string | null) => void;
 };
 
-export function TestRunnerParams({ projects, trainRunId, setTrainRunId }: TestRunnerParamsProps) {
+export function TestRunnerParamsForBuiltinModel({
+  projects,
+  trainRunId,
+  setTrainRunId,
+}: TestRunnerParamsProps) {
   const runs = projects.flatMap((project) => project.runs);
   const trainRuns = runs.filter((run) => run.run_type === 'train');
   const trainRunIds = trainRuns.map((run) => `${run.run_name} (${run.run_id})`);

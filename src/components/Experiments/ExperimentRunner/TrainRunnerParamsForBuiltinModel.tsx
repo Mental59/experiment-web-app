@@ -32,7 +32,7 @@ function CustomNumberInput({
   );
 }
 
-export function TrainRunnerParams({
+export function TrainRunnerParamsForBuiltinModel({
   experimentInfo,
   setBatchSize,
   setCaseSensitive,

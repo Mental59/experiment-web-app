@@ -1,5 +1,5 @@
 export enum ExperimentSelectorRunType {
-  Empty = 'Пустой',
+  Empty = 'С нуля',
   WithModelsExtraction = 'С извлечением моделей',
   BasedOnOtherExperiment = 'На основе другого эксперимента',
 }
