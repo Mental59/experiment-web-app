@@ -17,7 +17,7 @@ export const getOntoTreeView = async (token: string) => {
   return response.data;
 };
 
-export const findModelsInSourceCode = async (files: FileWithPath[], token: string) => {
+export const extractKnowledgeFromSourceFiles = async (files: FileWithPath[], token: string) => {
   const formData = new FormData();
 
   files.forEach((file) => {
@@ -25,7 +25,7 @@ export const findModelsInSourceCode = async (files: FileWithPath[], token: strin
   });
 
   const response = await axios.post<SourceCodeModelDto[]>(
-    `${API_URL}/onto-parser/find-models`,
+    `${API_URL}/onto-parser/extract-knowledge-from-source-files`,
     formData,
     {
       headers: { 'Content-Type': 'multipart/form-data', ...createAuthHeader(token) },

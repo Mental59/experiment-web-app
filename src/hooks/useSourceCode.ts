@@ -7,7 +7,7 @@ import {
   showErrorNotification,
   showWarningNotification,
 } from '../utils/notifier';
-import { findModelsInSourceCode } from '../requests/ontoParser';
+import { extractKnowledgeFromSourceFiles } from '../requests/ontoParser';
 import { setAllowedExperimentModels } from '../redux/experimentInfo/experimentInfoSlice';
 import { ExperimentMLModel } from '../models/experimentRunner/experimentModel';
 
@@ -20,11 +20,15 @@ export const useSourceCodeUpload = (onFilesUploaded?: () => void) => {
     try {
       dispatch(setSourceCodeLoading(true));
 
-      const models = await findModelsInSourceCode(files, token);
-      dispatch(setAllowedExperimentModels(models.map((model) => model.name as ExperimentMLModel)));
+      const knowledgeAboutModels = await extractKnowledgeFromSourceFiles(files, token);
+      dispatch(
+        setAllowedExperimentModels(
+          knowledgeAboutModels.map((model) => model.name as ExperimentMLModel)
+        )
+      );
 
-      const message = `Найдены модели: ${models.length}`;
-      if (models.length === 0) {
+      const message = `Найдены модели: ${knowledgeAboutModels.length}`;
+      if (knowledgeAboutModels.length === 0) {
         showWarningNotification(message);
       } else {
         showDefaultNotification(message);
