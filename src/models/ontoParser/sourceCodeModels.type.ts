@@ -1,6 +1,19 @@
 export type SourceCodeLibraryDto = {
   id: string;
   name: string;
+  attributes: {
+    branch?: string;
+    leaf?: boolean;
+  };
+};
+
+export type SourceCodeModelTaskDto = {
+  id: string;
+  name: string;
+  attributes: {
+    branch?: string;
+    leaf?: boolean;
+  };
 };
 
 export type SourceCodeModelAttributesDto = {
@@ -9,11 +22,6 @@ export type SourceCodeModelAttributesDto = {
   id?: string;
   model_name_or_path?: string;
   transformer?: boolean;
-};
-
-export type SourceCodeModelTaskDto = {
-  id: string;
-  name: string;
 };
 
 export type SourceCodeModelDto = {
