@@ -10,7 +10,9 @@ export function TestRunnerParamsForUserModel() {
   return (
     <Select
       value={selectedMLModel}
-      data={userModels.map((model) => model.attributes.model_name_or_path as string)}
+      data={userModels
+        .map((model) => model.attributes.model_name_or_path as string)
+        .filter((value, index, arr) => arr.indexOf(value) === index)}
       onChange={setSelectedUserMLModelNameOrPath}
       placeholder="Выберите загруженную модель"
       label="Загруженная модель"
